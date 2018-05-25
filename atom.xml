@@ -5,9 +5,9 @@
   <subtitle>桃李春风一杯酒，江湖夜雨十年灯</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="https://blog.nice-ai-life.com/"/>
   <updated>2018-05-25T14:26:31.205Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>https://blog.nice-ai-life.com/</id>
   
   <author>
     <name>Gatsby</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>bloom filter（布隆过滤器：编辑中）</title>
-    <link href="http://yoursite.com/2018/02/03/bloom-filter/"/>
-    <id>http://yoursite.com/2018/02/03/bloom-filter/</id>
+    <link href="https://blog.nice-ai-life.com/2018/02/03/bloom-filter/"/>
+    <id>https://blog.nice-ai-life.com/2018/02/03/bloom-filter/</id>
     <published>2018-02-02T16:21:14.000Z</published>
     <updated>2018-05-25T14:26:31.205Z</updated>
     
@@ -35,14 +35,14 @@
     </summary>
     
     
-      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
+      <category term="算法" scheme="https://blog.nice-ai-life.com/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
   <entry>
     <title>Python list实现</title>
-    <link href="http://yoursite.com/2018/01/08/Python-list%E5%AE%9E%E7%8E%B0/"/>
-    <id>http://yoursite.com/2018/01/08/Python-list实现/</id>
+    <link href="https://blog.nice-ai-life.com/2018/01/08/Python-list%E5%AE%9E%E7%8E%B0/"/>
+    <id>https://blog.nice-ai-life.com/2018/01/08/Python-list实现/</id>
     <published>2018-01-08T13:57:35.000Z</published>
     <updated>2018-01-08T16:51:25.000Z</updated>
     
@@ -62,8 +62,8 @@
   
   <entry>
     <title>SkipList研究</title>
-    <link href="http://yoursite.com/2017/12/29/SkipList/"/>
-    <id>http://yoursite.com/2017/12/29/SkipList/</id>
+    <link href="https://blog.nice-ai-life.com/2017/12/29/SkipList/"/>
+    <id>https://blog.nice-ai-life.com/2017/12/29/SkipList/</id>
     <published>2017-12-28T16:37:10.000Z</published>
     <updated>2018-01-06T07:02:53.000Z</updated>
     
@@ -79,16 +79,16 @@
     </summary>
     
     
-      <category term="datastructs" scheme="http://yoursite.com/tags/datastructs/"/>
+      <category term="datastructs" scheme="https://blog.nice-ai-life.com/tags/datastructs/"/>
     
-      <category term="algorithm" scheme="http://yoursite.com/tags/algorithm/"/>
+      <category term="algorithm" scheme="https://blog.nice-ai-life.com/tags/algorithm/"/>
     
   </entry>
   
   <entry>
     <title>Raft协议</title>
-    <link href="http://yoursite.com/2017/12/23/raft%E5%8D%8F%E8%AE%AE/"/>
-    <id>http://yoursite.com/2017/12/23/raft协议/</id>
+    <link href="https://blog.nice-ai-life.com/2017/12/23/raft%E5%8D%8F%E8%AE%AE/"/>
+    <id>https://blog.nice-ai-life.com/2017/12/23/raft协议/</id>
     <published>2017-12-23T13:14:30.000Z</published>
     <updated>2017-12-29T16:49:33.000Z</updated>
     
@@ -104,14 +104,14 @@
     </summary>
     
     
-      <category term="algorithm" scheme="http://yoursite.com/tags/algorithm/"/>
+      <category term="algorithm" scheme="https://blog.nice-ai-life.com/tags/algorithm/"/>
     
   </entry>
   
   <entry>
     <title>线段树应用（编辑中）</title>
-    <link href="http://yoursite.com/2017/12/23/%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%BA%94%E7%94%A8/"/>
-    <id>http://yoursite.com/2017/12/23/线段树应用/</id>
+    <link href="https://blog.nice-ai-life.com/2017/12/23/%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%BA%94%E7%94%A8/"/>
+    <id>https://blog.nice-ai-life.com/2017/12/23/线段树应用/</id>
     <published>2017-12-22T18:25:15.000Z</published>
     <updated>2017-12-25T14:08:09.000Z</updated>
     
@@ -127,14 +127,14 @@
     </summary>
     
     
-      <category term="algorithms" scheme="http://yoursite.com/tags/algorithms/"/>
+      <category term="algorithms" scheme="https://blog.nice-ai-life.com/tags/algorithms/"/>
     
   </entry>
   
   <entry>
     <title>Tornado IOLoop图解</title>
-    <link href="http://yoursite.com/2017/12/22/IOLoop%E7%AE%80%E8%BF%B0/"/>
-    <id>http://yoursite.com/2017/12/22/IOLoop简述/</id>
+    <link href="https://blog.nice-ai-life.com/2017/12/22/IOLoop%E7%AE%80%E8%BF%B0/"/>
+    <id>https://blog.nice-ai-life.com/2017/12/22/IOLoop简述/</id>
     <published>2017-12-22T05:26:57.000Z</published>
     <updated>2017-12-29T17:06:39.000Z</updated>
     
@@ -150,14 +150,14 @@
     </summary>
     
     
-      <category term="tornado" scheme="http://yoursite.com/tags/tornado/"/>
+      <category term="tornado" scheme="https://blog.nice-ai-life.com/tags/tornado/"/>
     
   </entry>
   
   <entry>
     <title>Python内存回收机制</title>
-    <link href="http://yoursite.com/2017/11/13/Python%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/"/>
-    <id>http://yoursite.com/2017/11/13/Python内存回收机制/</id>
+    <link href="https://blog.nice-ai-life.com/2017/11/13/Python%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6/"/>
+    <id>https://blog.nice-ai-life.com/2017/11/13/Python内存回收机制/</id>
     <published>2017-11-13T15:28:54.000Z</published>
     <updated>2017-11-13T15:29:44.000Z</updated>
     
@@ -173,14 +173,14 @@
     </summary>
     
     
-      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+      <category term="Python" scheme="https://blog.nice-ai-life.com/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>Huffman编码</title>
-    <link href="http://yoursite.com/2017/08/31/Huffman%E7%BC%96%E7%A0%81/"/>
-    <id>http://yoursite.com/2017/08/31/Huffman编码/</id>
+    <link href="https://blog.nice-ai-life.com/2017/08/31/Huffman%E7%BC%96%E7%A0%81/"/>
+    <id>https://blog.nice-ai-life.com/2017/08/31/Huffman编码/</id>
     <published>2017-08-30T16:45:00.000Z</published>
     <updated>2017-08-31T15:53:15.000Z</updated>
     
@@ -195,17 +195,17 @@
     
     </summary>
     
-      <category term="Alg" scheme="http://yoursite.com/categories/Alg/"/>
+      <category term="Alg" scheme="https://blog.nice-ai-life.com/categories/Alg/"/>
     
     
-      <category term="Alg" scheme="http://yoursite.com/tags/Alg/"/>
+      <category term="Alg" scheme="https://blog.nice-ai-life.com/tags/Alg/"/>
     
   </entry>
   
   <entry>
     <title>MySQL前缀索引</title>
-    <link href="http://yoursite.com/2017/07/31/MySQL%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95/"/>
-    <id>http://yoursite.com/2017/07/31/MySQL前缀索引/</id>
+    <link href="https://blog.nice-ai-life.com/2017/07/31/MySQL%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95/"/>
+    <id>https://blog.nice-ai-life.com/2017/07/31/MySQL前缀索引/</id>
     <published>2017-07-31T14:42:18.000Z</published>
     <updated>2017-07-31T14:43:53.000Z</updated>
     
@@ -220,21 +220,21 @@
     
     </summary>
     
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+      <category term="MySQL" scheme="https://blog.nice-ai-life.com/categories/MySQL/"/>
     
-      <category term="Index" scheme="http://yoursite.com/categories/MySQL/Index/"/>
+      <category term="Index" scheme="https://blog.nice-ai-life.com/categories/MySQL/Index/"/>
     
     
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+      <category term="MySQL" scheme="https://blog.nice-ai-life.com/tags/MySQL/"/>
     
-      <category term="Index" scheme="http://yoursite.com/tags/Index/"/>
+      <category term="Index" scheme="https://blog.nice-ai-life.com/tags/Index/"/>
     
   </entry>
   
   <entry>
     <title>高效率Shell</title>
-    <link href="http://yoursite.com/2017/07/06/%E9%AB%98%E6%95%88%E7%8E%87Shell/"/>
-    <id>http://yoursite.com/2017/07/06/高效率Shell/</id>
+    <link href="https://blog.nice-ai-life.com/2017/07/06/%E9%AB%98%E6%95%88%E7%8E%87Shell/"/>
+    <id>https://blog.nice-ai-life.com/2017/07/06/高效率Shell/</id>
     <published>2017-07-06T05:52:12.000Z</published>
     <updated>2017-08-05T08:12:57.000Z</updated>
     
@@ -250,21 +250,21 @@
     
     </summary>
     
-      <category term="Bash" scheme="http://yoursite.com/categories/Bash/"/>
+      <category term="Bash" scheme="https://blog.nice-ai-life.com/categories/Bash/"/>
     
-      <category term="Shell" scheme="http://yoursite.com/categories/Bash/Shell/"/>
+      <category term="Shell" scheme="https://blog.nice-ai-life.com/categories/Bash/Shell/"/>
     
     
-      <category term="Shell" scheme="http://yoursite.com/tags/Shell/"/>
+      <category term="Shell" scheme="https://blog.nice-ai-life.com/tags/Shell/"/>
     
-      <category term="Bash" scheme="http://yoursite.com/tags/Bash/"/>
+      <category term="Bash" scheme="https://blog.nice-ai-life.com/tags/Bash/"/>
     
   </entry>
   
   <entry>
     <title>高效率Bash Shell快捷键</title>
-    <link href="http://yoursite.com/2017/04/15/%E9%AB%98%E6%95%88%E7%8E%87Bash-Shell%E5%BF%AB%E6%8D%B7%E9%94%AE/"/>
-    <id>http://yoursite.com/2017/04/15/高效率Bash-Shell快捷键/</id>
+    <link href="https://blog.nice-ai-life.com/2017/04/15/%E9%AB%98%E6%95%88%E7%8E%87Bash-Shell%E5%BF%AB%E6%8D%B7%E9%94%AE/"/>
+    <id>https://blog.nice-ai-life.com/2017/04/15/高效率Bash-Shell快捷键/</id>
     <published>2017-04-14T16:47:59.000Z</published>
     <updated>2017-07-06T10:20:58.000Z</updated>
     
@@ -279,21 +279,21 @@
     
     </summary>
     
-      <category term="Shell" scheme="http://yoursite.com/categories/Shell/"/>
+      <category term="Shell" scheme="https://blog.nice-ai-life.com/categories/Shell/"/>
     
-      <category term="Bash" scheme="http://yoursite.com/categories/Shell/Bash/"/>
+      <category term="Bash" scheme="https://blog.nice-ai-life.com/categories/Shell/Bash/"/>
     
     
-      <category term="Shell" scheme="http://yoursite.com/tags/Shell/"/>
+      <category term="Shell" scheme="https://blog.nice-ai-life.com/tags/Shell/"/>
     
-      <category term="Bash" scheme="http://yoursite.com/tags/Bash/"/>
+      <category term="Bash" scheme="https://blog.nice-ai-life.com/tags/Bash/"/>
     
   </entry>
   
   <entry>
     <title>MySQL笔记</title>
-    <link href="http://yoursite.com/2017/04/04/MySQL%E7%AC%94%E8%AE%B0/"/>
-    <id>http://yoursite.com/2017/04/04/MySQL笔记/</id>
+    <link href="https://blog.nice-ai-life.com/2017/04/04/MySQL%E7%AC%94%E8%AE%B0/"/>
+    <id>https://blog.nice-ai-life.com/2017/04/04/MySQL笔记/</id>
     <published>2017-04-04T06:24:23.000Z</published>
     <updated>2018-01-04T06:25:27.000Z</updated>
     
@@ -313,8 +313,8 @@
   
   <entry>
     <title>Thrift教程</title>
-    <link href="http://yoursite.com/2017/04/01/Thrift%E6%95%99%E7%A8%8B/"/>
-    <id>http://yoursite.com/2017/04/01/Thrift教程/</id>
+    <link href="https://blog.nice-ai-life.com/2017/04/01/Thrift%E6%95%99%E7%A8%8B/"/>
+    <id>https://blog.nice-ai-life.com/2017/04/01/Thrift教程/</id>
     <published>2017-03-31T16:21:27.000Z</published>
     <updated>2017-04-21T16:35:42.000Z</updated>
     
@@ -329,21 +329,21 @@
     
     </summary>
     
-      <category term="RPC" scheme="http://yoursite.com/categories/RPC/"/>
+      <category term="RPC" scheme="https://blog.nice-ai-life.com/categories/RPC/"/>
     
-      <category term="Thrift" scheme="http://yoursite.com/categories/RPC/Thrift/"/>
+      <category term="Thrift" scheme="https://blog.nice-ai-life.com/categories/RPC/Thrift/"/>
     
     
-      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+      <category term="Python" scheme="https://blog.nice-ai-life.com/tags/Python/"/>
     
-      <category term="Thrift" scheme="http://yoursite.com/tags/Thrift/"/>
+      <category term="Thrift" scheme="https://blog.nice-ai-life.com/tags/Thrift/"/>
     
   </entry>
   
   <entry>
     <title>MySQL分页</title>
-    <link href="http://yoursite.com/2017/03/29/MySQL%E5%88%86%E9%A1%B5/"/>
-    <id>http://yoursite.com/2017/03/29/MySQL分页/</id>
+    <link href="https://blog.nice-ai-life.com/2017/03/29/MySQL%E5%88%86%E9%A1%B5/"/>
+    <id>https://blog.nice-ai-life.com/2017/03/29/MySQL分页/</id>
     <published>2017-03-29T14:49:42.000Z</published>
     <updated>2017-04-23T11:29:24.000Z</updated>
     
@@ -358,17 +358,17 @@
     
     </summary>
     
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+      <category term="MySQL" scheme="https://blog.nice-ai-life.com/categories/MySQL/"/>
     
     
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+      <category term="MySQL" scheme="https://blog.nice-ai-life.com/tags/MySQL/"/>
     
   </entry>
   
   <entry>
     <title>Vim实用技巧</title>
-    <link href="http://yoursite.com/2017/03/20/Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
-    <id>http://yoursite.com/2017/03/20/Vim实用技巧/</id>
+    <link href="https://blog.nice-ai-life.com/2017/03/20/Vim%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
+    <id>https://blog.nice-ai-life.com/2017/03/20/Vim实用技巧/</id>
     <published>2017-03-20T02:06:09.000Z</published>
     <updated>2017-04-20T17:47:29.000Z</updated>
     
@@ -383,17 +383,17 @@
     
     </summary>
     
-      <category term="Vim" scheme="http://yoursite.com/categories/Vim/"/>
+      <category term="Vim" scheme="https://blog.nice-ai-life.com/categories/Vim/"/>
     
     
-      <category term="Vim" scheme="http://yoursite.com/tags/Vim/"/>
+      <category term="Vim" scheme="https://blog.nice-ai-life.com/tags/Vim/"/>
     
   </entry>
   
   <entry>
     <title>Shell实用技巧</title>
-    <link href="http://yoursite.com/2017/03/19/Shell%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
-    <id>http://yoursite.com/2017/03/19/Shell实用技巧/</id>
+    <link href="https://blog.nice-ai-life.com/2017/03/19/Shell%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/"/>
+    <id>https://blog.nice-ai-life.com/2017/03/19/Shell实用技巧/</id>
     <published>2017-03-19T15:55:16.000Z</published>
     <updated>2017-04-22T16:08:53.000Z</updated>
     
@@ -408,17 +408,17 @@
     
     </summary>
     
-      <category term="Shell" scheme="http://yoursite.com/categories/Shell/"/>
+      <category term="Shell" scheme="https://blog.nice-ai-life.com/categories/Shell/"/>
     
     
-      <category term="Shell" scheme="http://yoursite.com/tags/Shell/"/>
+      <category term="Shell" scheme="https://blog.nice-ai-life.com/tags/Shell/"/>
     
   </entry>
   
   <entry>
     <title>Kafka常见操作</title>
-    <link href="http://yoursite.com/2017/01/05/Kafka%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C/"/>
-    <id>http://yoursite.com/2017/01/05/Kafka常见操作/</id>
+    <link href="https://blog.nice-ai-life.com/2017/01/05/Kafka%E5%B8%B8%E8%A7%81%E6%93%8D%E4%BD%9C/"/>
+    <id>https://blog.nice-ai-life.com/2017/01/05/Kafka常见操作/</id>
     <published>2017-01-04T16:35:26.000Z</published>
     <updated>2018-01-04T16:44:52.000Z</updated>
     
