@@ -80,6 +80,8 @@
 
 
 
+  <link rel="alternate" href="/atom.xml" title="枫叶居" type="application/atom+xml" />
+
 
 
 
@@ -97,7 +99,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/02/03/bloom-filter/index.html">
 <meta property="og:site_name" content="枫叶居">
 <meta property="og:description" content="应用场景在互联网后台的开发工作中，笔者会经常遇到各种各样的白名单业务场景，比如以下典型场景：  现有1亿个用户user_id，如何快速判断一个user_id是否在该白名单内 网络爬虫解析出一个页面的url清单，如何快速判断该url是否已经被抓取过 现有1亿个user_id，如何快速判断哪些user_id曾重复出现 服务器收到来自某个ip地址的请求，快速判断该ip地址是否在黑名单 ……  熟悉数据结">
-<meta property="og:updated_time" content="2018-05-25T14:19:58.329Z">
+<meta property="og:updated_time" content="2018-05-25T14:26:31.205Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bloom filter（布隆过滤器：编辑中）">
 <meta name="twitter:description" content="应用场景在互联网后台的开发工作中，笔者会经常遇到各种各样的白名单业务场景，比如以下典型场景：  现有1亿个用户user_id，如何快速判断一个user_id是否在该白名单内 网络爬虫解析出一个页面的url清单，如何快速判断该url是否已经被抓取过 现有1亿个user_id，如何快速判断哪些user_id曾重复出现 服务器收到来自某个ip地址的请求，快速判断该ip地址是否在黑名单 ……  熟悉数据结">
@@ -175,7 +177,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">桃李春风一杯酒，江湖夜雨十年灯</p>
+        <h1 class="site-subtitle" itemprop="description">桃李春风一杯酒，江湖夜雨十年灯</h1>
       
   </div>
 
@@ -266,7 +268,7 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/03/bloom-filter/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jay Gatsby">
+      <meta itemprop="name" content="Gatsby">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
@@ -280,14 +282,14 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h2 class="post-title" itemprop="name headline">
             
             
               
                 bloom filter（布隆过滤器：编辑中）
               
             
-          </h1>
+          </h2>
         
 
         <div class="post-meta">
@@ -350,6 +352,7 @@
 <p><code>Bitmap</code>类似于哈希表，哈希规则便是将数字<code>n</code>映射到<code>Bitmap</code>第<code>n</code>个<code>bit</code>上。因此<code>Bitmap</code>在实际应用中存在一处问题——当<code>n</code>取值特别大时，<code>Bitmap</code>占用空间也会比较大。在此业务场景下，<code>Bitmap</code>数据结构是不合理的，所以便衍生出了<code>Bloom Filter</code>。</p>
 <h2 id="Bloom-Filter"><a href="#Bloom-Filter" class="headerlink" title="Bloom Filter"></a>Bloom Filter</h2><p>等待更新…</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1]、<a href="https://my.oschina.net/kiwivip/blog/133498" target="_blank" rel="external">Bloom Filter算法简介</a></p>
+<p>[2]、<a href="http://oserror.com/backend/bloomfilter/" target="_blank" rel="external">Bloom Filter精品博客</a></p>
 
       
     </div>
@@ -461,11 +464,11 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
-               alt="Jay Gatsby" />
-          <p class="site-author-name" itemprop="name">Jay Gatsby</p>
+               alt="Gatsby" />
+          <p class="site-author-name" itemprop="name">Gatsby</p>
            
               <p class="site-description motion-element" itemprop="description"></p>
-          
+           
         </div>
         <nav class="site-state motion-element">
 
@@ -502,6 +505,13 @@
 
         </nav>
 
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
         
 
         <div class="links-of-author motion-element">
@@ -556,7 +566,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Jay Gatsby</span>
+  <span class="author" itemprop="copyrightHolder">Gatsby</span>
 </div>
 
 
