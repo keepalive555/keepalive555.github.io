@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Shell," />
+  <meta name="keywords" content="系统架构,缓存击穿,缓存雪崩,缓存失效," />
 
 
 
@@ -92,17 +92,17 @@
 
 
 
-<meta name="description" content="转载说明：本文章为作者原创，转载请标注原文地址 1.获取当前Shell脚本文件所在目录1PREFIX=$(cd `dirname $0`; pwd) 2.SSH开启密钥登录1ssh user@host &apos;mkdir -p .ssh &amp;amp;&amp;amp; cat &amp;gt;&amp;gt; .ssh/authorized_keys&apos; &amp;lt; ~/.ssh/id_rsa.pub 3.SSH端口转发1nohup">
-<meta name="keywords" content="Shell">
+<meta name="description" content="技术博客">
+<meta name="keywords" content="系统架构,缓存击穿,缓存雪崩,缓存失效">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Shell实用技巧">
-<meta property="og:url" content="https://blog.nice-ai-life.com/2017/03/19/Shell实用技巧/index.html">
+<meta property="og:title" content="高并发场景缓存常见问题">
+<meta property="og:url" content="https://blog.nice-ai-life.com/2018/05/28/高并发场景缓存常见问题/index.html">
 <meta property="og:site_name" content="枫叶居">
-<meta property="og:description" content="转载说明：本文章为作者原创，转载请标注原文地址 1.获取当前Shell脚本文件所在目录1PREFIX=$(cd `dirname $0`; pwd) 2.SSH开启密钥登录1ssh user@host &apos;mkdir -p .ssh &amp;amp;&amp;amp; cat &amp;gt;&amp;gt; .ssh/authorized_keys&apos; &amp;lt; ~/.ssh/id_rsa.pub 3.SSH端口转发1nohup">
-<meta property="og:updated_time" content="2017-04-22T16:08:53.000Z">
+<meta property="og:description" content="技术博客">
+<meta property="og:updated_time" content="2018-05-28T14:32:32.157Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Shell实用技巧">
-<meta name="twitter:description" content="转载说明：本文章为作者原创，转载请标注原文地址 1.获取当前Shell脚本文件所在目录1PREFIX=$(cd `dirname $0`; pwd) 2.SSH开启密钥登录1ssh user@host &apos;mkdir -p .ssh &amp;amp;&amp;amp; cat &amp;gt;&amp;gt; .ssh/authorized_keys&apos; &amp;lt; ~/.ssh/id_rsa.pub 3.SSH端口转发1nohup">
+<meta name="twitter:title" content="高并发场景缓存常见问题">
+<meta name="twitter:description" content="技术博客">
 
 
 
@@ -130,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="https://blog.nice-ai-life.com/2017/03/19/Shell实用技巧/"/>
+  <link rel="canonical" href="https://blog.nice-ai-life.com/2018/05/28/高并发场景缓存常见问题/"/>
 
 
 
 
 
-  <title> Shell实用技巧 | 枫叶居 </title>
+  <title> 高并发场景缓存常见问题 | 枫叶居 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://blog.nice-ai-life.com/2017/03/19/Shell实用技巧/">
+    <link itemprop="mainEntityOfPage" href="https://blog.nice-ai-life.com/2018/05/28/高并发场景缓存常见问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Gatsby">
@@ -288,7 +288,7 @@
             
             
               
-                Shell实用技巧
+                高并发场景缓存常见问题
               
             
           </h2>
@@ -303,8 +303,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T23:55:16+08:00">
-                2017-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T22:30:13+08:00">
+                2018-05-28
               </time>
             
 
@@ -326,8 +326,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Shell/" itemprop="url" rel="index">
-                    <span itemprop="name">Shell</span>
+                  <a href="/categories/系统架构/" itemprop="url" rel="index">
+                    <span itemprop="name">系统架构</span>
                   </a>
                 </span>
 
@@ -360,18 +360,42 @@
       
 
       
-        <p><a href="https://keepalive555.github.io/2017/03/19/Shell%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/" target="_blank" rel="external"><em>转载说明：本文章为作者原创，转载请标注原文地址</em></a></p>
-<h3 id="1-获取当前Shell脚本文件所在目录"><a href="#1-获取当前Shell脚本文件所在目录" class="headerlink" title="1.获取当前Shell脚本文件所在目录"></a>1.获取当前Shell脚本文件所在目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PREFIX=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</div></pre></td></tr></table></figure>
-<h3 id="2-SSH开启密钥登录"><a href="#2-SSH开启密钥登录" class="headerlink" title="2.SSH开启密钥登录"></a>2.SSH开启密钥登录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh user@host <span class="string">'mkdir -p .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys'</span> &lt; ~/.ssh/id_rsa.pub</div></pre></td></tr></table></figure>
-<h3 id="3-SSH端口转发"><a href="#3-SSH端口转发" class="headerlink" title="3.SSH端口转发"></a>3.SSH端口转发</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nohup  /usr/bin/ssh -N -L 0.0.0.0:8000:10.10.10.10:12000 sa.demo.com &amp;</div></pre></td></tr></table></figure>
-<h3 id="4-iOS证书转换"><a href="#4-iOS证书转换" class="headerlink" title="4.iOS证书转换"></a>4.iOS证书转换</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl pkcs12 -in demo.p12 -out demo.pem -nodes</div></pre></td></tr></table></figure>
-<h3 id="5-统计代码行数"><a href="#5-统计代码行数" class="headerlink" title="5.统计代码行数"></a>5.统计代码行数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ls *.py|xargs -n 1 wc <span class="_">-l</span>|awk <span class="string">'BEGIN&#123;total=0&#125;&#123;$total+=$1&#125;END&#123;print "total lines:\t"$total&#125;'</span></div></pre></td></tr></table></figure>
+        
       
     </div>
 
     <div>
       
         
+<div class="my_post_copyright">
+  <script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+  
+  <!-- JS库 sweetalert 可修改路径 -->
+  <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <p><span>本文标题:</span><a href="/2018/05/28/高并发场景缓存常见问题/">高并发场景缓存常见问题</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Gatsby 的个人博客">Gatsby</a></p>
+  <p><span>发布时间:</span>2018年05月28日 - 22:05</p>
+  <p><span>最后更新:</span>2018年05月28日 - 22:05</p>
+  <p><span>原始链接:</span><a href="/2018/05/28/高并发场景缓存常见问题/" title="高并发场景缓存常见问题">https://blog.nice-ai-life.com/2018/05/28/高并发场景缓存常见问题/</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://blog.nice-ai-life.com/2018/05/28/高并发场景缓存常见问题/"  aria-label="复制成功！"></i></span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" title="Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0)">署名-非商业性使用-禁止演绎 4.0 国际</a> 转载请保留原文链接及作者。</p>  
+</div>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    $(".fa-clipboard").click(function(){
+      clipboard.on('success', function(){
+        swal({   
+          title: "",   
+          text: '复制成功',
+          icon: "success", 
+          showConfirmButton: true
+          });
+	});
+    });  
+</script>
+
 
       
     </div>
@@ -417,7 +441,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Shell/" rel="tag"># Shell</a>
+            <a href="/tags/系统架构/" rel="tag"># 系统架构</a>
+          
+            <a href="/tags/缓存击穿/" rel="tag"># 缓存击穿</a>
+          
+            <a href="/tags/缓存雪崩/" rel="tag"># 缓存雪崩</a>
+          
+            <a href="/tags/缓存失效/" rel="tag"># 缓存失效</a>
           
         </div>
       
@@ -430,18 +460,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/20/Vim实用技巧/" rel="next" title="Vim实用技巧">
-                <i class="fa fa-chevron-left"></i> Vim实用技巧
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/01/05/Kafka常见操作/" rel="prev" title="Kafka常见操作">
-                Kafka常见操作 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/02/03/bloom-filter/" rel="prev" title="bloom filter（布隆过滤器）">
+                bloom filter（布隆过滤器） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -489,17 +515,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -568,22 +585,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-获取当前Shell脚本文件所在目录"><span class="nav-number">1.</span> <span class="nav-text">1.获取当前Shell脚本文件所在目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SSH开启密钥登录"><span class="nav-number">2.</span> <span class="nav-text">2.SSH开启密钥登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-SSH端口转发"><span class="nav-number">3.</span> <span class="nav-text">3.SSH端口转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-iOS证书转换"><span class="nav-number">4.</span> <span class="nav-text">4.iOS证书转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-统计代码行数"><span class="nav-number">5.</span> <span class="nav-text">5.统计代码行数</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
