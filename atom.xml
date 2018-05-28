@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.nice-ai-life.com/"/>
-  <updated>2018-05-28T16:46:37.954Z</updated>
+  <updated>2018-05-28T16:58:06.213Z</updated>
   <id>https://blog.nice-ai-life.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://blog.nice-ai-life.com/2018/05/28/%E9%AB%98%E5%B9%B6%E5%8F%91%E5%9C%BA%E6%99%AF%E7%BC%93%E5%AD%98%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
     <id>https://blog.nice-ai-life.com/2018/05/28/高并发场景缓存常见问题/</id>
     <published>2018-05-28T14:30:13.000Z</published>
-    <updated>2018-05-28T16:46:37.954Z</updated>
+    <updated>2018-05-28T16:58:06.213Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>缓存——是一种<code>Web</code>后端开发中常见的技术，常用于解决由外存储器读取速率较低引起的性能问题。在互联网后台的开发工作中，我们经常会将<code>Redis</code>用作缓存系统（在非严格测试条件下，<code>Redis</code>的单机<code>QPS|TPS</code>可高达<code>15w</code>左右，读者可使用<code>redis-benchmark</code>命令验证）。</p><p>缓存系统的核心宗旨是：<strong><em>尽可能从缓存系统获取数据，减小数据库系统负载。</em></strong></p><h2 id="缓存问题"><a href="#缓存问题" class="headerlink" title="缓存问题"></a>缓存问题</h2><p>在工程实践中，缓存系统特别适合<strong><em><code>高并发读</code></em></strong>的业务场景（在接下来的章节，笔者会对<code>高并发写</code>业务场景的优化铺开陈述）。</p><h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><h3 id="缓存失效"><a href="#缓存失效" class="headerlink" title="缓存失效"></a>缓存失效</h3>]]></content>
+    <content type="html"><![CDATA[<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>缓存——是一种<code>Web</code>后端开发中常见的技术，常用于解决由外存储器读取速率较低引起的性能问题。在互联网后台的开发工作中，我们经常会将<code>Redis</code>用作缓存系统（在非严格测试条件下，<code>Redis</code>的单机<code>QPS|TPS</code>可高达<code>15w</code>左右，读者可使用<code>redis-benchmark</code>命令验证），以下本文所引用的<code>缓存系统</code>均是指<code>Web</code>后端缓存系统。</p><p>缓存系统的核心宗旨：<strong><em>减小数据库系统负载。</em></strong>典型的缓存使用示例代码①如下：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_data</span><span class="params">()</span>:</span></div><div class="line"><span class="keyword">pass</span></div></pre></td></tr></table></figure><h2 id="缓存问题"><a href="#缓存问题" class="headerlink" title="缓存问题"></a>缓存问题</h2><p>在工程实践中，缓存系统特别适合<strong><em><code>高并发读</code></em></strong>的业务场景（在接下来的章节，笔者会对<code>高并发写</code>业务场景下的优化铺开陈述）。<code>高并发读</code>也是一面放大镜，会将缓存系统的一些问题放大。</p><h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><h3 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h3><h3 id="缓存失效"><a href="#缓存失效" class="headerlink" title="缓存失效"></a>缓存失效</h3>]]></content>
     
     <summary type="html">
     
