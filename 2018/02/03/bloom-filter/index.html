@@ -99,10 +99,12 @@
 <meta property="og:url" content="https://blog.nice-ai-life.com/2018/02/03/bloom-filter/index.html">
 <meta property="og:site_name" content="枫叶居">
 <meta property="og:description" content="应用场景在互联网后台的开发工作中，笔者会经常遇到各种各样的白名单业务场景，比如以下典型场景：  现有1亿个用户user_id，如何快速判断一个user_id是否在该白名单内 网络爬虫解析出一个页面的url清单，如何快速判断该url是否已经被抓取过 现有1亿个user_id，如何快速判断哪些user_id曾重复出现 服务器收到来自某个ip地址的请求，快速判断该ip地址是否在黑名单 ……  熟悉数据结">
-<meta property="og:updated_time" content="2019-01-08T14:58:16.223Z">
+<meta property="og:image" content="https://blog.nice-ai-life.com/2018/02/03/bloom-filter/bloom-filter.png">
+<meta property="og:updated_time" content="2019-01-08T15:00:52.751Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bloom filter（布隆过滤器）">
 <meta name="twitter:description" content="应用场景在互联网后台的开发工作中，笔者会经常遇到各种各样的白名单业务场景，比如以下典型场景：  现有1亿个用户user_id，如何快速判断一个user_id是否在该白名单内 网络爬虫解析出一个页面的url清单，如何快速判断该url是否已经被抓取过 现有1亿个user_id，如何快速判断哪些user_id曾重复出现 服务器收到来自某个ip地址的请求，快速判断该ip地址是否在黑名单 ……  熟悉数据结">
+<meta name="twitter:image" content="https://blog.nice-ai-life.com/2018/02/03/bloom-filter/bloom-filter.png">
 
 
 
@@ -355,7 +357,7 @@
 <h2 id="Bloom-Filter"><a href="#Bloom-Filter" class="headerlink" title="Bloom Filter"></a>Bloom Filter</h2><p><code>Bloom Filter</code>，中文译名布隆过滤器，是1970年由布隆提出来。布隆过滤器可以用于检索一个元素是否在一个集合中。布隆过滤器优点是<em><br><strong>空间复杂度和时间复杂度</strong></em> 都优于一般的算法，缺点是<strong><em>有一定的误识别率</em></strong> ，删除困难。</p>
 <h3 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h3><p>假设所选<code>Hash</code>函数在散列空间内分布均匀，即散列到每一个位置的概率相等（对于Hash函数的核心诉求）。假设<code>Bit</code>数组的大小为<code>m</code>，<code>k</code>为<code>Hash</code>函数的个数。</p>
 <p><code>Bit</code>数组中某一位位置在元素插入时的<code>Hash</code>操作中没有被置位<code>1</code>的概率是：</p>
-<p><a href="bloom-filter.png">1</a></p>
+<p><img src="/2018/02/03/bloom-filter/bloom-filter.png" alt="1"></p>
 <h3 id="概率估算"><a href="#概率估算" class="headerlink" title="概率估算"></a>概率估算</h3><p><a href="http://matthias.vallentin.net/course-work/cs270-s11.pdf" target="_blank" rel="external">Bloom Filter Pagers</a></p>
 <p><a href="https://my.oschina.net/kiwivip/blog/133498" target="_blank" rel="external">Bloom Filter算法简介</a></p>
 
@@ -374,7 +376,7 @@
   <p><span>本文标题:</span><a href="/2018/02/03/bloom-filter/">bloom filter（布隆过滤器）</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Gatsby 的个人博客">Gatsby</a></p>
   <p><span>发布时间:</span>2018年02月03日 - 00:02</p>
-  <p><span>最后更新:</span>2019年01月08日 - 22:01</p>
+  <p><span>最后更新:</span>2019年01月08日 - 23:01</p>
   <p><span>原始链接:</span><a href="/2018/02/03/bloom-filter/" title="bloom filter（布隆过滤器）">https://blog.nice-ai-life.com/2018/02/03/bloom-filter/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://blog.nice-ai-life.com/2018/02/03/bloom-filter/"  aria-label="复制成功！"></i></span>
   </p>

@@ -360,7 +360,7 @@
 <h2 id="Bloom-Filter"><a href="#Bloom-Filter" class="headerlink" title="Bloom Filter"></a>Bloom Filter</h2><p><code>Bloom Filter</code>，中文译名布隆过滤器，是1970年由布隆提出来。布隆过滤器可以用于检索一个元素是否在一个集合中。布隆过滤器优点是<em><br><strong>空间复杂度和时间复杂度</strong></em> 都优于一般的算法，缺点是<strong><em>有一定的误识别率</em></strong> ，删除困难。</p>
 <h3 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h3><p>假设所选<code>Hash</code>函数在散列空间内分布均匀，即散列到每一个位置的概率相等（对于Hash函数的核心诉求）。假设<code>Bit</code>数组的大小为<code>m</code>，<code>k</code>为<code>Hash</code>函数的个数。</p>
 <p><code>Bit</code>数组中某一位位置在元素插入时的<code>Hash</code>操作中没有被置位<code>1</code>的概率是：</p>
-<p><a href="bloom-filter.png">1</a></p>
+<p><img src="/2018/02/03/bloom-filter/bloom-filter.png" alt="1"></p>
 <h3 id="概率估算"><a href="#概率估算" class="headerlink" title="概率估算"></a>概率估算</h3><p><a href="http://matthias.vallentin.net/course-work/cs270-s11.pdf" target="_blank" rel="external">Bloom Filter Pagers</a></p>
 <p><a href="https://my.oschina.net/kiwivip/blog/133498" target="_blank" rel="external">Bloom Filter算法简介</a></p>
 
