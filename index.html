@@ -361,6 +361,9 @@
 <p><img src="/2018/02/03/bloom-filter/bloom-filter.png" alt="布隆过滤器"></p>
 <h3 id="算法原理"><a href="#算法原理" class="headerlink" title="算法原理"></a>算法原理</h3><p>假设所选<code>Hash</code>函数在散列空间内分布均匀，即散列到每一个位置的概率相等（对于Hash函数的核心诉求）。假设<code>Bit</code>数组的大小为<code>m</code>，<code>k</code>为<code>Hash</code>函数的个数。</p>
 <p><code>Bit</code>数组中某一位位置在元素插入时的<code>Hash</code>操作中没有被置位<code>1</code>的概率是：</p>
+<p><img src="/2018/02/03/bloom-filter/1.png" alt="1"></p>
+<p><code>k</code>个<code>Hash</code>函数散列之后该位置仍未被置位<code>1</code>的概率是：</p>
+<p><img src="/2018/02/03/bloom-filter/2.png" alt="2"></p>
 <h3 id="概率估算"><a href="#概率估算" class="headerlink" title="概率估算"></a>概率估算</h3><p><a href="http://matthias.vallentin.net/course-work/cs270-s11.pdf" target="_blank" rel="external">Bloom Filter Pagers</a></p>
 <p><a href="https://my.oschina.net/kiwivip/blog/133498" target="_blank" rel="external">Bloom Filter算法简介</a></p>
 
