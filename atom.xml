@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.nice-ai-life.com/"/>
-  <updated>2019-01-23T16:38:34.751Z</updated>
+  <updated>2019-01-23T16:40:03.202Z</updated>
   <id>https://blog.nice-ai-life.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Snowflake算法</title>
+    <title>Snowflake GUID算法</title>
     <link href="https://blog.nice-ai-life.com/2019/01/24/Snowflake%E7%AE%97%E6%B3%95/"/>
     <id>https://blog.nice-ai-life.com/2019/01/24/Snowflake算法/</id>
     <published>2019-01-23T16:37:37.000Z</published>
-    <updated>2019-01-23T16:38:34.751Z</updated>
+    <updated>2019-01-23T16:40:03.202Z</updated>
     
     <summary type="html">
     
