@@ -99,12 +99,12 @@
 <meta property="og:url" content="https://blog.nice-ai-life.com/2020/09/20/Golang性能分析/index.html">
 <meta property="og:site_name" content="枫叶居">
 <meta property="og:description" content="[toc] 写在前面本文章为笔者原创，转载需要表明出处！！！ 笔者最近在做golang重构旧php模块的事情，PHP模块峰值请求约1.5w QPS，是典型的高并发场景，重构过程中，代码中一些容易被开发者“选择性忽略”的问题会被指数级放大，比如内存泄露、full GC等等，所以上线/放量前必须进行压力测试。 为了更贴近生产环境，与QA同学合作，将重构后的golang模块部署到生产集群，选择一台20标">
-<meta property="og:image" content="https://blog.nice-ai-life.com/2020/09/20/Golang性能分析/Users/wanglanwei/Desktop/torch.svg">
-<meta property="og:updated_time" content="2020-09-20T08:48:01.463Z">
+<meta property="og:image" content="https://blog.nice-ai-life.com/2020/09/20/Golang性能分析/torch.svg">
+<meta property="og:updated_time" content="2020-09-20T08:59:03.499Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Golang性能分析">
 <meta name="twitter:description" content="[toc] 写在前面本文章为笔者原创，转载需要表明出处！！！ 笔者最近在做golang重构旧php模块的事情，PHP模块峰值请求约1.5w QPS，是典型的高并发场景，重构过程中，代码中一些容易被开发者“选择性忽略”的问题会被指数级放大，比如内存泄露、full GC等等，所以上线/放量前必须进行压力测试。 为了更贴近生产环境，与QA同学合作，将重构后的golang模块部署到生产集群，选择一台20标">
-<meta name="twitter:image" content="https://blog.nice-ai-life.com/2020/09/20/Golang性能分析/Users/wanglanwei/Desktop/torch.svg">
+<meta name="twitter:image" content="https://blog.nice-ai-life.com/2020/09/20/Golang性能分析/torch.svg">
 
 
 
@@ -392,7 +392,7 @@
 <p><strong><em>y 轴表示调用栈，每一层都标识一个函数，调用栈越深，火焰就越高，顶部就是当前在执行的函数。</em></strong></p>
 <p><strong><em>x 轴表示抽样数，如果一个函数在 x 轴占据的宽度越宽，表示它被抽到的次数多，执行的时间长（x 轴非时间轴，是所有的调用栈合并后，按函数字母顺序排列的）。因此，火焰图顶部，只要有”平顶”（plateaus），则表示该函数可能存在<font color="#ff0000" size="3">性能问题</font>。</em></strong></p>
 <p>提示：svg格式，当移动鼠标至其中一栏时会显示”Tips”信息，包含采样数、占采样总数百分比等等信息，有关火焰图更详细的资料参考：<a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">cpu flame graph</a>。</p>
-<p><img src="/2020/09/20/Golang性能分析/Users/wanglanwei/Desktop/torch.svg" alt="示例火焰图"></p>
+<p><img src="/2020/09/20/Golang性能分析/torch.svg" alt="示例火焰图"></p>
 <p>上图中，可以很明显观察到<strong>encoding/json.Unmarshal</strong>函数<strong>耗费了40%的CPU时间</strong>，是系统的性能瓶颈。定位了性能瓶颈之后，我们应当思考如何优化了。</p>
 <h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><p>json反序列化成为系统性能瓶颈，可以说在情理之内，预期之外。业务角度，我们的Golang模块强依赖的下游服务，返回了一个大JSON（大约几十KB），且字段嵌套层级较深，json反序列化耗时是情理之内的，但是耗费了惊人的40%的CPU时间是预期之外的。</p>
 <p>为了解决这个问题，有如下几条思路：</p>
@@ -510,8 +510,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/01/24/Snowflake算法/" rel="prev" title="Snowflake GUID算法">
-                Snowflake GUID算法 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/02/03/bloom-filter/" rel="prev" title="bloom filter（布隆过滤器）">
+                bloom filter（布隆过滤器） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -584,7 +584,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

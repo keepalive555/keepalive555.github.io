@@ -395,7 +395,7 @@
 <p><strong><em>y 轴表示调用栈，每一层都标识一个函数，调用栈越深，火焰就越高，顶部就是当前在执行的函数。</em></strong></p>
 <p><strong><em>x 轴表示抽样数，如果一个函数在 x 轴占据的宽度越宽，表示它被抽到的次数多，执行的时间长（x 轴非时间轴，是所有的调用栈合并后，按函数字母顺序排列的）。因此，火焰图顶部，只要有”平顶”（plateaus），则表示该函数可能存在<font color="#ff0000" size="3">性能问题</font>。</em></strong></p>
 <p>提示：svg格式，当移动鼠标至其中一栏时会显示”Tips”信息，包含采样数、占采样总数百分比等等信息，有关火焰图更详细的资料参考：<a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank" rel="external">cpu flame graph</a>。</p>
-<p><img src="/2020/09/20/Golang性能分析/Users/wanglanwei/Desktop/torch.svg" alt="示例火焰图"></p>
+<p><img src="/2020/09/20/Golang性能分析/torch.svg" alt="示例火焰图"></p>
 <p>上图中，可以很明显观察到<strong>encoding/json.Unmarshal</strong>函数<strong>耗费了40%的CPU时间</strong>，是系统的性能瓶颈。定位了性能瓶颈之后，我们应当思考如何优化了。</p>
 <h2 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h2><p>json反序列化成为系统性能瓶颈，可以说在情理之内，预期之外。业务角度，我们的Golang模块强依赖的下游服务，返回了一个大JSON（大约几十KB），且字段嵌套层级较深，json反序列化耗时是情理之内的，但是耗费了惊人的40%的CPU时间是预期之外的。</p>
 <p>为了解决这个问题，有如下几条思路：</p>
@@ -412,129 +412,6 @@
 <p><a href="https://www.ruanyifeng.com/blog/2017/09/flame-graph.html" target="_blank" rel="external">如何读懂火焰图</a></p>
 <p><a href="https://ichrisking.github.io/2018/03/08/FlameGraph/" target="_blank" rel="external">FlameGraph安装指南</a></p>
 
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://blog.nice-ai-life.com/2019/01/24/Snowflake算法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Gatsby">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="枫叶居">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/01/24/Snowflake算法/" itemprop="url">
-                  Snowflake GUID算法
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-24T00:37:37+08:00">
-                2019-01-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdint.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * @Description: Twitter全局ID生成SnowFlake算法（标准实现：0bit符号位+41bit时间位+10bit机器码+12bit自增ID）。</div><div class="line"> * @Author: wanglanwei@baidu.com</div><div class="line"> */</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> HOST_BITS 0x0a <span class="comment">// 10bit</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> INCR_BITS 0x0c <span class="comment">// 12bit</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> SHIFT (HOST_BITS + INCR_BITS) <span class="comment">// 22bit</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> HOST_MASK 0x000000000fffff</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> INCR_MASK 0x00000000ffffff</span></div><div class="line"></div><div class="line"><span class="comment">// 函数类型</span></div><div class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">uint64_t</span> <span class="params">(*generate)</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span>* obj, ...)</span></span>;</div><div class="line"></div><div class="line"><span class="comment">// 函数原型</span></div><div class="line"><span class="keyword">uint64_t</span> gen(<span class="keyword">const</span> <span class="keyword">void</span> *obj, ...);</div><div class="line"></div><div class="line"><span class="comment">// GUID生成器</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> __<span class="title">guid_generator</span> &#123;</span></div><div class="line">    <span class="keyword">uint64_t</span> host;</div><div class="line">    <span class="keyword">uint64_t</span> incr;</div><div class="line">    <span class="keyword">uint64_t</span> host_mask; <span class="comment">// 主机号掩码</span></div><div class="line">    <span class="keyword">uint64_t</span> incr_mask; <span class="comment">// 自增号掩码</span></div><div class="line">    <span class="keyword">uint64_t</span> last_gen_time;</div><div class="line">    generate gen;</div><div class="line">&#125; <span class="keyword">guid_generator_t</span>;</div><div class="line"></div><div class="line"><span class="comment">// popcount算法</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">popcount</span><span class="params">(<span class="keyword">uint64_t</span> x)</span> </span>&#123;</div><div class="line">    x = (x &amp; <span class="number">0x5555555555555555</span>) + ((x &gt;&gt;<span class="number">1</span> ) &amp; <span class="number">0x5555555555555555</span>);</div><div class="line">    x = (x &amp; <span class="number">0x3333333333333333</span>) + ((x &gt;&gt;<span class="number">2</span> ) &amp; <span class="number">0x3333333333333333</span>);</div><div class="line">    x = (x &amp; <span class="number">0x0f0f0f0f0f0f0f0f</span>) + ((x &gt;&gt;<span class="number">4</span> ) &amp; <span class="number">0x0f0f0f0f0f0f0f0f</span>);</div><div class="line">    x = (x &amp; <span class="number">0x00ff00ff00ff00ff</span>) + ((x &gt;&gt;<span class="number">8</span> ) &amp; <span class="number">0x00ff00ff00ff00ff</span>);</div><div class="line">    x = (x &amp; <span class="number">0x0000ffff0000ffff</span>) + ((x &gt;&gt;<span class="number">16</span>) &amp; <span class="number">0x0000ffff0000ffff</span>);</div><div class="line">    x = (x &amp; <span class="number">0x00000000ffffffff</span>) + ((x &gt;&gt;<span class="number">32</span>) &amp; <span class="number">0x00000000ffffffff</span>);</div><div class="line">    <span class="keyword">return</span> x;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 新建GUID生成器</span></div><div class="line"><span class="keyword">guid_generator_t</span> *create_guid_generator(<span class="keyword">uint64_t</span> host, <span class="keyword">uint64_t</span> host_mask, <span class="keyword">uint64_t</span> incr_mask) &#123;</div><div class="line">    <span class="keyword">guid_generator_t</span> *generator = (<span class="keyword">guid_generator_t</span> *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">guid_generator_t</span>));</div><div class="line">    <span class="keyword">if</span> (generator == <span class="literal">NULL</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line">    generator-&gt;host = host;</div><div class="line">    generator-&gt;incr = <span class="number">0</span>;</div><div class="line">    generator-&gt;host_mask = host_mask;</div><div class="line">    generator-&gt;incr_mask = incr_mask;</div><div class="line">    generator-&gt;last_gen_time = <span class="number">0</span>;</div><div class="line">    generator-&gt;gen = gen;</div><div class="line">    <span class="keyword">return</span> generator;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">uint64_t</span> gen(<span class="keyword">const</span> <span class="keyword">void</span> *obj, ...) &#123;</div><div class="line">    assert(obj != <span class="literal">NULL</span>);</div><div class="line">    <span class="keyword">guid_generator_t</span> *<span class="keyword">this</span> = (<span class="keyword">guid_generator_t</span> *)obj;</div><div class="line">    <span class="keyword">uint64_t</span> guid = <span class="number">0</span>;</div><div class="line">    <span class="comment">// 获取当前时间戳，单位：毫秒</span></div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> <span class="title">val</span>;</span></div><div class="line">    <span class="built_in">memset</span>((<span class="keyword">void</span> *)&amp;val, <span class="number">0</span>, <span class="keyword">sizeof</span>(struct timeval));</div><div class="line">    <span class="keyword">int</span> res = gettimeofday(&amp;val, <span class="literal">NULL</span>);</div><div class="line">    <span class="keyword">if</span> (res == <span class="number">-1</span>) &#123;</div><div class="line">        <span class="keyword">return</span> guid;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">uint64_t</span> timestamp = val.tv_sec * <span class="number">1000</span> + val.tv_usec;</div><div class="line">    <span class="keyword">if</span> (timestamp &lt; <span class="keyword">this</span>-&gt;last_gen_time) &#123;</div><div class="line">        <span class="keyword">return</span> guid;</div><div class="line">    &#125;</div><div class="line">    guid |= timestamp &lt;&lt; SHIFT;</div><div class="line">    guid |= (<span class="keyword">this</span>-&gt;host_mask &amp; <span class="keyword">this</span>-&gt;host) &lt;&lt; HOST_BITS;</div><div class="line">    <span class="comment">// 时间片内保持递增</span></div><div class="line">    <span class="keyword">this</span>-&gt;incr++;</div><div class="line">    <span class="keyword">for</span> (;;) &#123;</div><div class="line">        <span class="keyword">if</span> (timestamp == <span class="keyword">this</span>-&gt;last_gen_time) &#123;</div><div class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>-&gt;incr &amp; ~INCR_MASK) &#123;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">this</span>-&gt;incr = <span class="number">0</span>;</div><div class="line">            <span class="keyword">this</span>-&gt;incr++;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line">    guid |= <span class="keyword">this</span>-&gt;incr &amp; INCR_MASK;</div><div class="line">    <span class="keyword">return</span> guid;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span> </span>&#123;</div><div class="line">    <span class="keyword">uint64_t</span> a = <span class="number">0xffff000000000000</span>;</div><div class="line">    <span class="keyword">int</span> n = popcount(a);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"n=%d\n"</span>, n);</div><div class="line">    <span class="keyword">int</span> i;</div><div class="line">    <span class="keyword">for</span> (i=<span class="number">0</span>; i&lt;<span class="number">100</span>; i++) &#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -1714,6 +1591,217 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="https://blog.nice-ai-life.com/2017/07/31/MySQL前缀索引/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gatsby">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="枫叶居">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/07/31/MySQL前缀索引/" itemprop="url">
+                  MySQL前缀索引
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-31T22:42:18+08:00">
+                2017-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/Index/" itemprop="url" rel="index">
+                    <span itemprop="name">Index</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="MySQL前缀索引"><a href="#MySQL前缀索引" class="headerlink" title="MySQL前缀索引"></a>MySQL前缀索引</h2><p><strong>注意：</strong> 本文的所有优化仅针对InnoDB存储引擎。</p>
+<p>MySQL索引可以加快查询速度，但是索引并不是越多越好，索引虽然可以加快数据的查询速度，但是索引文件本身需要占用存储空间，数据的插入，删除，和修改也需要索引保持同步，据一线有经验的DBA介绍，索引列占表所有列的30%是比较合理的。</p>
+<h4 id="查看表存在的索引"><a href="#查看表存在的索引" class="headerlink" title="查看表存在的索引"></a>查看表存在的索引</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">show</span> <span class="keyword">index</span> <span class="keyword">from</span> <span class="string">`table`</span>;</div></pre></td></tr></table></figure>
+<h4 id="查看索引占用磁盘空间大小"><a href="#查看索引占用磁盘空间大小" class="headerlink" title="查看索引占用磁盘空间大小"></a>查看索引占用磁盘空间大小</h4><blockquote>
+<p>MySQL<code>information_schema</code>数据库<code>TABLES</code>表<a href="https://dev.mysql.com/doc/refman/5.7/en/tables-table.html" target="_blank" rel="external">官方手册</a></p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">concat</span>(<span class="keyword">round</span>(<span class="keyword">sum</span>(INDEX_LENGTH/(<span class="number">1024</span>*<span class="number">1024</span>)), <span class="number">2</span>), <span class="string">'MB'</span>) <span class="keyword">as</span> <span class="string">'Total Index Size'</span> <span class="keyword">from</span> <span class="string">`information_schema`</span>.<span class="string">`TABLES`</span> <span class="keyword">where</span> <span class="string">`table_schema`</span> = <span class="string">'order'</span> <span class="keyword">and</span> <span class="string">`table_name`</span> = <span class="string">'order_base'</span>;</div></pre></td></tr></table></figure>
+<p><strong>注意：</strong> 以下两种情况，不建议建立索引。</p>
+<ul>
+<li>表记录数比较少 —— InnoDB辅助索引叶子节点存储的不是记录的物理地址，而是主键值，使用辅助索引查找数据总是需要第二次查找主键索引，在表记录较少的情况下，建立索引反而会降低查询性能，所以直接全表扫描就好了，具体基准需根据业务场景而定。</li>
+<li>索引的选择性比较低 —— 索引的选择性指不重复的索引值与表记录数的比值，值域为(0, 1]。索引选择性越高越好，可以通俗的理解为，选择性高的索引在查询时往往可以筛选出比较多的记录，所以访问表的次数较少，索引的有效率比较高。例如存在基本表<code>table</code>，我们要在表<code>table</code>的<code>column</code>列上建立一个索引，我们使用如下<code>SQL</code>语句计算该索引的选择性：</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">count</span>(<span class="keyword">distinct</span> <span class="string">`column`</span>) / <span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">from</span> <span class="string">`table`</span>;</div></pre></td></tr></table></figure>
+<h4 id="前缀索引"><a href="#前缀索引" class="headerlink" title="前缀索引"></a>前缀索引</h4><p>前缀索引是一种与索引选择性相关联的索引优化技术，顾名思义，使用列的前缀代替整个列作为Key，当前缀长度合理时，既可以做到前缀索引的选择性接近全列索引，同时因为索引Key变短而减少索引文件的大小和维护开销。</p>
+<p>想象一下存在如下业务场景，一张存放订单信息的基本表<code>order</code>，订单号长度为24位（如：61700123215824），表结构如下：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>order_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>61700123215824</td>
+</tr>
+<tr>
+<td>2</td>
+<td>61500280698102</td>
+</tr>
+<tr>
+<td>3</td>
+<td>61500280756582</td>
+</tr>
+</tbody>
+</table>
+<p>首先计算一下，全列索引选择性：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">round</span>(<span class="keyword">count</span>(<span class="keyword">distinct</span> <span class="string">`order_id`</span>) / <span class="keyword">count</span>(*), <span class="number">2</span>) <span class="keyword">from</span> <span class="string">`order`</span>;</div></pre></td></tr></table></figure>
+<p>结果为1.00，选择前缀长度为5，看一下索引的选择性：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">round</span>(<span class="keyword">count</span>(<span class="keyword">distinct</span> <span class="keyword">left</span>(<span class="string">`order_id`</span>, <span class="number">5</span>)) / <span class="keyword">count</span>(*), <span class="number">2</span>) <span class="keyword">from</span> <span class="string">`order`</span>;</div></pre></td></tr></table></figure>
+<p>结果为0.00，5个字符长度的前缀，看来不行，我们增加到10，看一下索引的选择性：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">round</span>(<span class="keyword">count</span>(<span class="keyword">distinct</span> <span class="keyword">left</span>(<span class="string">`order_id`</span>, <span class="number">10</span>)) / <span class="keyword">count</span>(*), <span class="number">2</span>) <span class="keyword">from</span> <span class="string">`order`</span>;</div></pre></td></tr></table></figure>
+<p>结果为0.63，差强人意，我们继续以5位单位递增，看一下索引的选择性：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> <span class="keyword">round</span>(<span class="keyword">count</span>(<span class="keyword">distinct</span> <span class="keyword">left</span>(<span class="string">`order_id`</span>, <span class="number">15</span>)) / <span class="keyword">count</span>(*), <span class="number">2</span>) <span class="keyword">from</span> <span class="string">`order`</span>;</div></pre></td></tr></table></figure>
+<p>由于round的四舍五入，结果为1.00，那前缀能不能更少一些，在公司的业务系统内试了一下，前缀长度为11时，索引选择性为0.9999，四舍五入为1。通过夹逼的方法（😆默默的想起高数的夹逼定理），找到了最佳的索引前缀长度为11，接下来我们创建前缀索引：</p>
+<blockquote>
+<p>创建前缀索引</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="string">`order`</span> <span class="keyword">add</span> <span class="keyword">index</span> <span class="string">`idx_order_id`</span>(<span class="string">`order_id`</span>(<span class="number">11</span>));</div></pre></td></tr></table></figure>
+<p><strong>注意：</strong> 前缀索引的缺点</p>
+<ul>
+<li>前缀索引不能用于order by与group by操作。</li>
+<li>前缀索引不能用于covering index —— 显而易见，前缀索引并未包含<code>order_id</code>列的全部信息，所以并不能用于covering index。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1763,7 +1851,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
