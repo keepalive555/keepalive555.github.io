@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Golang,性能分析," />
+  <meta name="keywords" content="Golang,性能优化,PProf," />
 
 
 
@@ -93,14 +93,14 @@
 
 
 <meta name="description" content="[toc] 写在前面本文章为笔者原创，转载需要表明出处！！！ 笔者最近在做golang重构旧php模块的事情，PHP模块峰值请求约1.5w QPS，是典型的高并发场景，重构过程中，代码中一些容易被开发者“选择性忽略”的问题会被指数级放大，比如内存泄露、full GC等等，所以上线/放量前必须进行压力测试。 为了更贴近生产环境，与QA同学合作，将重构后的golang模块部署到生产集群，选择一台20标">
-<meta name="keywords" content="Golang,性能分析">
+<meta name="keywords" content="Golang,性能优化,PProf">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Golang性能分析">
 <meta property="og:url" content="https://blog.nice-ai-life.com/2020/09/20/Golang性能分析/index.html">
 <meta property="og:site_name" content="枫叶居">
 <meta property="og:description" content="[toc] 写在前面本文章为笔者原创，转载需要表明出处！！！ 笔者最近在做golang重构旧php模块的事情，PHP模块峰值请求约1.5w QPS，是典型的高并发场景，重构过程中，代码中一些容易被开发者“选择性忽略”的问题会被指数级放大，比如内存泄露、full GC等等，所以上线/放量前必须进行压力测试。 为了更贴近生产环境，与QA同学合作，将重构后的golang模块部署到生产集群，选择一台20标">
 <meta property="og:image" content="https://blog.nice-ai-life.com/2020/09/20/Golang性能分析/torch.svg">
-<meta property="og:updated_time" content="2020-09-20T09:09:11.497Z">
+<meta property="og:updated_time" content="2020-09-23T16:45:50.449Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Golang性能分析">
 <meta name="twitter:description" content="[toc] 写在前面本文章为笔者原创，转载需要表明出处！！！ 笔者最近在做golang重构旧php模块的事情，PHP模块峰值请求约1.5w QPS，是典型的高并发场景，重构过程中，代码中一些容易被开发者“选择性忽略”的问题会被指数级放大，比如内存泄露、full GC等等，所以上线/放量前必须进行压力测试。 为了更贴近生产环境，与QA同学合作，将重构后的golang模块部署到生产集群，选择一台20标">
@@ -316,6 +316,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/性能优化/" itemprop="url" rel="index">
+                    <span itemprop="name">性能优化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -425,7 +447,7 @@
   <p><span>本文标题:</span><a href="/2020/09/20/Golang性能分析/">Golang性能分析</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Gatsby 的个人博客">Gatsby</a></p>
   <p><span>发布时间:</span>2020年09月20日 - 16:09</p>
-  <p><span>最后更新:</span>2020年09月20日 - 17:09</p>
+  <p><span>最后更新:</span>2020年09月24日 - 00:09</p>
   <p><span>原始链接:</span><a href="/2020/09/20/Golang性能分析/" title="Golang性能分析">https://blog.nice-ai-life.com/2020/09/20/Golang性能分析/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://blog.nice-ai-life.com/2020/09/20/Golang性能分析/"  aria-label="复制成功！"></i></span>
   </p>
@@ -492,7 +514,9 @@
           
             <a href="/tags/Golang/" rel="tag"># Golang</a>
           
-            <a href="/tags/性能分析/" rel="tag"># 性能分析</a>
+            <a href="/tags/性能优化/" rel="tag"># 性能优化</a>
+          
+            <a href="/tags/PProf/" rel="tag"># PProf</a>
           
         </div>
       
@@ -504,6 +528,10 @@
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/24/长尾请求/" rel="next" title="长尾请求与分位时">
+                <i class="fa fa-chevron-left"></i> 长尾请求与分位时
+              </a>
             
           </div>
 
@@ -585,7 +613,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -596,7 +624,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -607,7 +635,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
