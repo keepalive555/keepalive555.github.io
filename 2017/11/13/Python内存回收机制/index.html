@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Python," />
+  <meta name="keywords" content="Python,内存回收," />
 
 
 
@@ -93,13 +93,13 @@
 
 
 <meta name="description" content="Python2.7内存回收机制(一)写在前面Python的内存回收采用引用计数机制。引用计数是一种简单而广泛使用的资源回收机制，例如Linux平台的文件描述符，Windows平台下的内核对象等均采用引用计数的方式进行管理。本文将结合Python2.7官方手册阐明Python2.7的引用计数机制（如无特殊说明，本文所提及的Python均为CPython）。 Python语言在设计之初就是一门面向对象">
-<meta name="keywords" content="Python">
+<meta name="keywords" content="Python,内存回收">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python内存回收机制">
 <meta property="og:url" content="https://blog.nice-ai-life.com/2017/11/13/Python内存回收机制/index.html">
 <meta property="og:site_name" content="枫叶居">
 <meta property="og:description" content="Python2.7内存回收机制(一)写在前面Python的内存回收采用引用计数机制。引用计数是一种简单而广泛使用的资源回收机制，例如Linux平台的文件描述符，Windows平台下的内核对象等均采用引用计数的方式进行管理。本文将结合Python2.7官方手册阐明Python2.7的引用计数机制（如无特殊说明，本文所提及的Python均为CPython）。 Python语言在设计之初就是一门面向对象">
-<meta property="og:updated_time" content="2017-11-13T15:29:44.000Z">
+<meta property="og:updated_time" content="2020-09-23T16:53:36.519Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python内存回收机制">
 <meta name="twitter:description" content="Python2.7内存回收机制(一)写在前面Python的内存回收采用引用计数机制。引用计数是一种简单而广泛使用的资源回收机制，例如Linux平台的文件描述符，Windows平台下的内核对象等均采用引用计数的方式进行管理。本文将结合Python2.7官方手册阐明Python2.7的引用计数机制（如无特殊说明，本文所提及的Python均为CPython）。 Python语言在设计之初就是一门面向对象">
@@ -314,6 +314,39 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程语言/" itemprop="url" rel="index">
+                    <span itemprop="name">编程语言</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程语言/源码分析/" itemprop="url" rel="index">
+                    <span itemprop="name">源码分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -406,6 +439,8 @@
         <div class="post-tags">
           
             <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/内存回收/" rel="tag"># 内存回收</a>
           
         </div>
       
@@ -513,7 +548,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -524,7 +559,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

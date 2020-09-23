@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="算法,数据结构," />
+  <meta name="keywords" content="BloomFilter,白名单,假阳性," />
 
 
 
@@ -93,7 +93,7 @@
 
 
 <meta name="description" content="应用场景在互联网后台的开发工作中，笔者会经常遇到各种各样的白名单业务场景，比如以下典型场景：  现有1亿个用户user_id，如何快速判断一个user_id是否在该白名单内 网络爬虫解析出一个页面的url清单，如何快速判断该url是否已经被抓取过 现有1亿个user_id，如何快速判断哪些user_id曾重复出现 服务器收到来自某个ip地址的请求，快速判断该ip地址是否在黑名单 ……  熟悉数据结">
-<meta name="keywords" content="算法,数据结构">
+<meta name="keywords" content="BloomFilter,白名单,假阳性">
 <meta property="og:type" content="article">
 <meta property="og:title" content="bloom filter（布隆过滤器）">
 <meta property="og:url" content="https://blog.nice-ai-life.com/2018/02/03/bloom-filter/index.html">
@@ -104,7 +104,7 @@
 <meta property="og:image" content="https://blog.nice-ai-life.com/2018/02/03/bloom-filter/2.png">
 <meta property="og:image" content="https://blog.nice-ai-life.com/2018/02/03/bloom-filter/3.png">
 <meta property="og:image" content="https://blog.nice-ai-life.com/2018/02/03/bloom-filter/4.png">
-<meta property="og:updated_time" content="2019-01-23T16:25:33.000Z">
+<meta property="og:updated_time" content="2020-09-23T16:50:05.929Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="bloom filter（布隆过滤器）">
 <meta name="twitter:description" content="应用场景在互联网后台的开发工作中，笔者会经常遇到各种各样的白名单业务场景，比如以下典型场景：  现有1亿个用户user_id，如何快速判断一个user_id是否在该白名单内 网络爬虫解析出一个页面的url清单，如何快速判断该url是否已经被抓取过 现有1亿个user_id，如何快速判断哪些user_id曾重复出现 服务器收到来自某个ip地址的请求，快速判断该ip地址是否在黑名单 ……  熟悉数据结">
@@ -320,6 +320,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -388,7 +410,7 @@
   <p><span>本文标题:</span><a href="/2018/02/03/bloom-filter/">bloom filter（布隆过滤器）</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Gatsby 的个人博客">Gatsby</a></p>
   <p><span>发布时间:</span>2018年02月03日 - 00:02</p>
-  <p><span>最后更新:</span>2019年01月24日 - 00:01</p>
+  <p><span>最后更新:</span>2020年09月24日 - 00:09</p>
   <p><span>原始链接:</span><a href="/2018/02/03/bloom-filter/" title="bloom filter（布隆过滤器）">https://blog.nice-ai-life.com/2018/02/03/bloom-filter/</a>
     <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="https://blog.nice-ai-life.com/2018/02/03/bloom-filter/"  aria-label="复制成功！"></i></span>
   </p>
@@ -453,9 +475,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/算法/" rel="tag"># 算法</a>
+            <a href="/tags/BloomFilter/" rel="tag"># BloomFilter</a>
           
-            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+            <a href="/tags/白名单/" rel="tag"># 白名单</a>
+          
+            <a href="/tags/假阳性/" rel="tag"># 假阳性</a>
           
         </div>
       
@@ -563,7 +587,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -574,7 +598,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
