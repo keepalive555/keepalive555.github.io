@@ -6,18 +6,18 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -35,7 +35,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -69,23 +69,23 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="MySQL,分页," />
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-
-
-
-  <link rel="alternate" href="/atom.xml" title="枫叶居" type="application/atom+xml" />
+  <meta name="keywords" content="MySQL,分页,">
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+  <link rel="alternate" href="/atom.xml" title="枫叶居" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
 
 
 
@@ -99,7 +99,8 @@
 <meta property="og:url" content="https://keepalive555.github.io/2017/03/29/MySQL分页/index.html">
 <meta property="og:site_name" content="枫叶居">
 <meta property="og:description" content="转载说明：本文章为作者原创，转载请标注原文地址 公司最近上线了“订单管理系统”，系统内有比较多的分页展示逻辑，所以我单独拿出了点时间，对MySQL的分页做了总结。 提到MySQL分页，我们通常会首先考虑，使用偏移量offset+limit的办法实现。下面以实现目标：查询订单表order，并按订单创建时间create_time，降序排序，每页50条记录，为例进行说明。首先我们想到的sql语句如下：">
-<meta property="og:updated_time" content="2020-09-23T16:54:10.035Z">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-09-23T16:54:10.036Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL分页">
 <meta name="twitter:description" content="转载说明：本文章为作者原创，转载请标注原文地址 公司最近上线了“订单管理系统”，系统内有比较多的分页展示逻辑，所以我单独拿出了点时间，对MySQL的分页做了总结。 提到MySQL分页，我们通常会首先考虑，使用偏移量offset+limit的办法实现。下面以实现目标：查询订单表order，并按订单创建时间create_time，降序排序，每页50条记录，为例进行说明。首先我们想到的sql语句如下：">
@@ -130,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="https://keepalive555.github.io/2017/03/29/MySQL分页/"/>
+  <link rel="canonical" href="https://keepalive555.github.io/2017/03/29/MySQL分页/">
 
 
 
@@ -139,7 +140,7 @@
   <title> MySQL分页 | 枫叶居 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
 
@@ -164,15 +165,15 @@
   <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
-    <a href="https://github.com/keepalive555" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <a href="https://github.com/keepalive555" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
     <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">枫叶居</span>
         <span class="logo-line-after"><i></i></span>
@@ -202,7 +203,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             首页
           </a>
@@ -212,7 +213,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
           </a>
@@ -222,7 +223,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
             归档
           </a>
@@ -232,7 +233,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
             
             标签
           </a>
@@ -242,7 +243,7 @@
         <li class="menu-item menu-item-commonweal">
           <a href="/404.html" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
             
             公益404
           </a>
@@ -276,16 +277,16 @@
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://keepalive555.github.io/2017/03/29/MySQL分页/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Gatsby">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="枫叶居">
     </span>
 
@@ -324,7 +325,7 @@
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -335,7 +336,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
                   <a href="/categories/MySQL/" itemprop="url" rel="index">
                     <span itemprop="name">MySQL</span>
                   </a>
@@ -373,20 +374,20 @@
         <p><a href="http://keepalive555.github.io/2017/03/29/MySQL%E5%88%86%E9%A1%B5/"><em>转载说明：本文章为作者原创，转载请标注原文地址</em></a></p>
 <p>公司最近上线了“订单管理系统”，系统内有比较多的分页展示逻辑，所以我单独拿出了点时间，对MySQL的分页做了总结。</p>
 <p>提到MySQL分页，我们通常会首先考虑，使用偏移量offset+limit的办法实现。下面以实现目标：<br><strong>查询订单表<code>order</code>，并按订单创建时间<code>create_time</code>，降序排序，每页<code>50</code>条记录</strong><br>，为例进行说明。首先我们想到的sql语句如下：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>, <span class="number">50</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>, <span class="number">50</span>;</span><br></pre></td></tr></table></figure>
 <p>多次执行该操作，随着页数增加（<em>即：偏移量增大</em>），该查询语句的性能随之下降，耗时比较明显。当并发量上来时，这对MySQL数据库的压力是致命的。以翻页至200页为例，MySQL会查询<code>200 * 50</code>条记录，最后只返回<code>50</code>条记录，前面的<code>200 * (50 - 1)</code>条记录，将会被丢弃。</p>
 <p>因为订单的属性很多，所以并无法为每一列建立索引（当然为每一列都建立索引，是简单粗暴的）。优化此类分页查询的一个最简单的办法，尽可能使用索引覆盖扫描，而不是查询所有列，然后在关联返回所需要的列。优化后的SQL语句如下所示：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">inner</span> <span class="keyword">join</span> (<span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">limit</span> <span class="keyword">desc</span> <span class="number">10000</span>, <span class="number">50</span>) <span class="keyword">as</span> <span class="string">`tmp`</span> <span class="keyword">using</span>(<span class="string">`id);</span></div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">inner</span> <span class="keyword">join</span> (<span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">limit</span> <span class="keyword">desc</span> <span class="number">10000</span>, <span class="number">50</span>) <span class="keyword">as</span> <span class="string">`tmp`</span> <span class="keyword">using</span>(<span class="string">`id);</span></span><br></pre></td></tr></table></figure>
 <p>这里MySQL扫描了尽可能少的页面，获取需要访问的记录后，然后再去关联查询，获取了所需的列，该种用法还存在若干类似的变种。</p>
 <p>最后，也是我们确定的技术选型。推荐的用法，前端每次查询都传入上次查询记录的max_id，或者min_id传递给我们，然后根据id的索引去优化该操作。（<strong>注：只有id列的单调性与目标列的单调性一致时可采用该方案</strong>）产品设计上，我们不返回具体的页数，只提供了当前页，前后10页跳页的功能，解决了该问题。</p>
 <p>向后翻页</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">desc</span> <span class="keyword">where</span> <span class="string">`id`</span> &lt; min_id <span class="keyword">limit</span> <span class="number">50</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">desc</span> <span class="keyword">where</span> <span class="string">`id`</span> &lt; min_id <span class="keyword">limit</span> <span class="number">50</span>;</span><br></pre></td></tr></table></figure>
 <p>向前跳页</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">desc</span> <span class="keyword">where</span></div><div class="line"><span class="string">`id`</span> &lt; min_id <span class="keyword">limit</span> <span class="number">450</span>, <span class="number">50</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">desc</span> <span class="keyword">where</span></span><br><span class="line"><span class="string">`id`</span> &lt; min_id <span class="keyword">limit</span> <span class="number">450</span>, <span class="number">50</span>;</span><br></pre></td></tr></table></figure>
 <p>向前翻页</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">desc</span> <span class="keyword">where</span> <span class="string">`id`</span> &gt; max_id <span class="keyword">limit</span> <span class="number">50</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">desc</span> <span class="keyword">where</span> <span class="string">`id`</span> &gt; max_id <span class="keyword">limit</span> <span class="number">50</span>;</span><br></pre></td></tr></table></figure>
 <p>向后跳页</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">desc</span> <span class="keyword">where</span> <span class="string">`id`</span> &gt; max_id <span class="keyword">limit</span> <span class="number">450</span>, <span class="number">50</span>;</div></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">desc</span> <span class="keyword">where</span> <span class="string">`id`</span> &gt; max_id <span class="keyword">limit</span> <span class="number">450</span>, <span class="number">50</span>;</span><br></pre></td></tr></table></figure>
 <p>当数据库，采用分库分表，或者中间件时的分页操作，较为复杂，需要根据具体情况确定，本次不做陈述。</p>
 
       
@@ -417,7 +418,7 @@
     <div id="QR" style="display: none;">
       
         <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/wechat.jpeg" alt="Gatsby WeChat Pay"/>
+          <img id="wechat_qr" src="/images/wechat.jpeg" alt="Gatsby WeChat Pay">
           <p>微信打赏</p>
         </div>
       
@@ -455,8 +456,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/01/Thrift教程/" rel="next" title="Thrift教程">
-                <i class="fa fa-chevron-left"></i> Thrift教程
+              <a href="/2017/03/20/Vim实用技巧/" rel="next" title="Vim实用技巧">
+                <i class="fa fa-chevron-left"></i> Vim实用技巧
               </a>
             
           </div>
@@ -465,8 +466,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/03/20/Vim实用技巧/" rel="prev" title="Vim实用技巧">
-                Vim实用技巧 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/04/01/Thrift教程/" rel="prev" title="Thrift教程">
+                Thrift教程 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -516,10 +517,8 @@
       
 
       <section class="site-overview sidebar-panel sidebar-panel-active">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="Gatsby" />
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Gatsby">
           <p class="site-author-name" itemprop="name">Gatsby</p>
            
               <p class="site-description motion-element" itemprop="description"></p>
@@ -598,7 +597,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2020</span>

@@ -6,18 +6,18 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
 
 
 
@@ -35,7 +35,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
 
 
 
@@ -69,23 +69,23 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
-<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
-
-
-  <meta name="keywords" content="跳表,时间复杂度O(nlogn),哈希表," />
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-
-
-
-  <link rel="alternate" href="/atom.xml" title="枫叶居" type="application/atom+xml" />
+  <meta name="keywords" content="跳表,时间复杂度O(nlogn),哈希表,">
 
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+  <link rel="alternate" href="/atom.xml" title="枫叶居" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
 
 
 
@@ -99,6 +99,7 @@
 <meta property="og:url" content="https://keepalive555.github.io/2017/12/29/SkipList/index.html">
 <meta property="og:site_name" content="枫叶居">
 <meta property="og:description" content="吐槽作为一名学渣，每次回头去翻看一下大学课程的基础知识，总会有不同的感受。笔者也总想着把自己工作中领悟的做归纳。关于查找算法，思想大概可以归类为三类（大神请绕路）：  顺序查找 二分查找（插入查找、斐波拉切查找…） 哈希查找  顺序查找是我们常用的遍历。在对性能要求比较高的业务场景下，我们便需要考虑其他更好的实现方式了（例如：为了避免全表扫描，数据库通过B+ Tree索引提高查找效率）。哈希查找，">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2020-09-23T16:51:16.117Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SkipList研究">
@@ -130,7 +131,7 @@
 
 
 
-  <link rel="canonical" href="https://keepalive555.github.io/2017/12/29/SkipList/"/>
+  <link rel="canonical" href="https://keepalive555.github.io/2017/12/29/SkipList/">
 
 
 
@@ -139,7 +140,7 @@
   <title> SkipList研究 | 枫叶居 </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
 
@@ -164,15 +165,15 @@
   <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
-    <a href="https://github.com/keepalive555" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <a href="https://github.com/keepalive555" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewbox="0 0 250 250" style="fill:#fff; color:#151513; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
 
     <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">枫叶居</span>
         <span class="logo-line-after"><i></i></span>
@@ -202,7 +203,7 @@
         <li class="menu-item menu-item-home">
           <a href="/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
             
             首页
           </a>
@@ -212,7 +213,7 @@
         <li class="menu-item menu-item-categories">
           <a href="/categories" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
             
             分类
           </a>
@@ -222,7 +223,7 @@
         <li class="menu-item menu-item-archives">
           <a href="/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
             
             归档
           </a>
@@ -232,7 +233,7 @@
         <li class="menu-item menu-item-tags">
           <a href="/tags" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
             
             标签
           </a>
@@ -242,7 +243,7 @@
         <li class="menu-item menu-item-commonweal">
           <a href="/404.html" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
             
             公益404
           </a>
@@ -276,16 +277,16 @@
   
   
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="https://keepalive555.github.io/2017/12/29/SkipList/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Gatsby">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="枫叶居">
     </span>
 
@@ -324,7 +325,7 @@
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -335,7 +336,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
                   <a href="/categories/数据结构/" itemprop="url" rel="index">
                     <span itemprop="name">数据结构</span>
                   </a>
@@ -382,9 +383,9 @@
 <p>顺序存储不适用于<code>增 、删</code>操作频繁的应用场景，那么我们考虑一下<strong><em>链式存储</em></strong>。<strong><em>链表</em></strong>能很好的处理<code>增、删</code>频繁的场景。但是链表一般<strong><em>顺序访问</em></strong>（即读取第一个元素后才可以读取第二个元素，以此类推），显然传统的链表数据结构无法应用二分的思想进行快速查找。</p>
 <p>聪明的人们结合<code>二叉树</code>，发明了<strong><em>二叉查找树</em></strong>———既可以二分查找，又能够快速<code>添加、删除</code>元素的数据结构。这正是我们期望的能够应用二分查找的完美数据结构吗？很遗憾，并不是。二叉查找树在最坏情况下可能变成一个链表。于是，在二分查找树的基础上，就出现了<code>AVL</code>平衡树。<code>AVL</code>树在<code>增、删</code>节点时，为了保持树的平衡，会进行左旋，右旋操作，增加了<code>增、删</code>操作的复杂度。于是乎根据人们在发明了<code>B-Tree</code>，<code>B+ Tree</code>，<code>红黑树</code>等。但是<code>AVL</code>树实现起来比较复杂，平衡操作较难理解。</p>
 <p>所以便有了<code>SkipList</code>。</p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>百度搜索网上一些<code>SkipList</code>的实现，代码多多少少存在一些瑕疵。笔者根据自己对<code>SkipList</code>的理解，结合网上的一些实现，整理出了一份<code>C</code>语言版本的<code>SkipList</code>实现。读者可以参阅笔者的<code>GitHub</code>，源文件：<a href="https://github.com/keepalive555/study/blob/master/skiplist/skiplist.c" target="_blank" rel="external">https://github.com/keepalive555/study/blob/master/skiplist/skiplist.c</a>。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>百度搜索网上一些<code>SkipList</code>的实现，代码多多少少存在一些瑕疵。笔者根据自己对<code>SkipList</code>的理解，结合网上的一些实现，整理出了一份<code>C</code>语言版本的<code>SkipList</code>实现。读者可以参阅笔者的<code>GitHub</code>，源文件：<a href="https://github.com/keepalive555/study/blob/master/skiplist/skiplist.c" target="_blank" rel="noopener">https://github.com/keepalive555/study/blob/master/skiplist/skiplist.c</a>。</p>
 <p>其中<code>SkipList</code>新建<code>Node</code>节点，随机获取节点<code>level</code>值的<code>random_level</code>函数（源码如下所示），是笔者摘抄自<code>Redis</code>源码。<strong><em>该函数是保证<code>SkipList</code>的<code>CRUD</code>操作时间复杂度为</em></strong>O(logN)<strong><em>的核心所在</em></strong>。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_LEVEL 32</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> P 0.25</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">random_level</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;  </div><div class="line">    <span class="keyword">int</span> level = <span class="number">1</span>;  </div><div class="line">    <span class="keyword">while</span> ((random() &amp; <span class="number">0xFFFF</span>) &lt; (P * <span class="number">0xFFFF</span>))  </div><div class="line">        level += <span class="number">1</span>;  </div><div class="line">    <span class="keyword">return</span> (level &lt; MAX_LEVEL) ? level : MAX_LEVEL;  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_LEVEL 32</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P 0.25</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">random_level</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> level = <span class="number">1</span>;  </span><br><span class="line">    <span class="keyword">while</span> ((random() &amp; <span class="number">0xFFFF</span>) &lt; (P * <span class="number">0xFFFF</span>))  </span><br><span class="line">        level += <span class="number">1</span>;  </span><br><span class="line">    <span class="keyword">return</span> (level &lt; MAX_LEVEL) ? level : MAX_LEVEL;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -414,7 +415,7 @@
     <div id="QR" style="display: none;">
       
         <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/wechat.jpeg" alt="Gatsby WeChat Pay"/>
+          <img id="wechat_qr" src="/images/wechat.jpeg" alt="Gatsby WeChat Pay">
           <p>微信打赏</p>
         </div>
       
@@ -454,8 +455,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/01/08/Python-list实现/" rel="next" title="Python list实现">
-                <i class="fa fa-chevron-left"></i> Python list实现
+              <a href="/2017/12/23/raft协议/" rel="next" title="Raft协议">
+                <i class="fa fa-chevron-left"></i> Raft协议
               </a>
             
           </div>
@@ -464,8 +465,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/23/raft协议/" rel="prev" title="Raft协议">
-                Raft协议 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/08/Python-list实现/" rel="prev" title="Python list实现">
+                Python list实现 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -514,7 +515,7 @@
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
@@ -524,10 +525,8 @@
       
 
       <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="Gatsby" />
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Gatsby">
           <p class="site-author-name" itemprop="name">Gatsby</p>
            
               <p class="site-description motion-element" itemprop="description"></p>
@@ -622,7 +621,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
+        <div class="copyright">
   
   &copy; 
   <span itemprop="copyrightYear">2020</span>
