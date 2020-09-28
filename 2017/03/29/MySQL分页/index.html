@@ -96,7 +96,7 @@
 <meta name="keywords" content="MySQL,分页">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL分页">
-<meta property="og:url" content="https://blog.nice-ai-life.com/2017/03/29/MySQL分页/index.html">
+<meta property="og:url" content="https://keepalive555.github.io/2017/03/29/MySQL分页/index.html">
 <meta property="og:site_name" content="枫叶居">
 <meta property="og:description" content="转载说明：本文章为作者原创，转载请标注原文地址 公司最近上线了“订单管理系统”，系统内有比较多的分页展示逻辑，所以我单独拿出了点时间，对MySQL的分页做了总结。 提到MySQL分页，我们通常会首先考虑，使用偏移量offset+limit的办法实现。下面以实现目标：查询订单表order，并按订单创建时间create_time，降序排序，每页50条记录，为例进行说明。首先我们想到的sql语句如下：">
 <meta property="og:updated_time" content="2020-09-23T16:54:10.035Z">
@@ -130,7 +130,7 @@
 
 
 
-  <link rel="canonical" href="https://blog.nice-ai-life.com/2017/03/29/MySQL分页/"/>
+  <link rel="canonical" href="https://keepalive555.github.io/2017/03/29/MySQL分页/"/>
 
 
 
@@ -238,6 +238,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -267,7 +277,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://blog.nice-ai-life.com/2017/03/29/MySQL分页/">
+    <link itemprop="mainEntityOfPage" href="https://keepalive555.github.io/2017/03/29/MySQL分页/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Gatsby">
@@ -360,7 +370,7 @@
       
 
       
-        <p><a href="http://keepalive555.github.io/2017/03/29/MySQL%E5%88%86%E9%A1%B5/" target="_blank" rel="external"><em>转载说明：本文章为作者原创，转载请标注原文地址</em></a></p>
+        <p><a href="http://keepalive555.github.io/2017/03/29/MySQL%E5%88%86%E9%A1%B5/"><em>转载说明：本文章为作者原创，转载请标注原文地址</em></a></p>
 <p>公司最近上线了“订单管理系统”，系统内有比较多的分页展示逻辑，所以我单独拿出了点时间，对MySQL的分页做了总结。</p>
 <p>提到MySQL分页，我们通常会首先考虑，使用偏移量offset+limit的办法实现。下面以实现目标：<br><strong>查询订单表<code>order</code>，并按订单创建时间<code>create_time</code>，降序排序，每页<code>50</code>条记录</strong><br>，为例进行说明。首先我们想到的sql语句如下：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> *<span class="keyword">from</span> <span class="string">`order`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="string">`create_time`</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>, <span class="number">50</span>;</div></pre></td></tr></table></figure>

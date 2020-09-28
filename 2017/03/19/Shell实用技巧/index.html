@@ -96,7 +96,7 @@
 <meta name="keywords" content="Shell">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Shell实用技巧">
-<meta property="og:url" content="https://blog.nice-ai-life.com/2017/03/19/Shell实用技巧/index.html">
+<meta property="og:url" content="https://keepalive555.github.io/2017/03/19/Shell实用技巧/index.html">
 <meta property="og:site_name" content="枫叶居">
 <meta property="og:description" content="转载说明：本文章为作者原创，转载请标注原文地址 1.获取当前Shell脚本文件所在目录1PREFIX=$(cd `dirname $0`; pwd) 2.SSH开启密钥登录1ssh user@host &apos;mkdir -p .ssh &amp;amp;&amp;amp; cat &amp;gt;&amp;gt; .ssh/authorized_keys&apos; &amp;lt; ~/.ssh/id_rsa.pub 3.SSH端口转发1nohup">
 <meta property="og:updated_time" content="2017-04-22T16:08:53.000Z">
@@ -130,7 +130,7 @@
 
 
 
-  <link rel="canonical" href="https://blog.nice-ai-life.com/2017/03/19/Shell实用技巧/"/>
+  <link rel="canonical" href="https://keepalive555.github.io/2017/03/19/Shell实用技巧/"/>
 
 
 
@@ -238,6 +238,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -267,7 +277,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="https://blog.nice-ai-life.com/2017/03/19/Shell实用技巧/">
+    <link itemprop="mainEntityOfPage" href="https://keepalive555.github.io/2017/03/19/Shell实用技巧/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Gatsby">
@@ -360,7 +370,7 @@
       
 
       
-        <p><a href="https://keepalive555.github.io/2017/03/19/Shell%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/" target="_blank" rel="external"><em>转载说明：本文章为作者原创，转载请标注原文地址</em></a></p>
+        <p><a href="https://keepalive555.github.io/2017/03/19/Shell%E5%AE%9E%E7%94%A8%E6%8A%80%E5%B7%A7/"><em>转载说明：本文章为作者原创，转载请标注原文地址</em></a></p>
 <h3 id="1-获取当前Shell脚本文件所在目录"><a href="#1-获取当前Shell脚本文件所在目录" class="headerlink" title="1.获取当前Shell脚本文件所在目录"></a>1.获取当前Shell脚本文件所在目录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PREFIX=$(<span class="built_in">cd</span> `dirname <span class="variable">$0</span>`; <span class="built_in">pwd</span>)</div></pre></td></tr></table></figure>
 <h3 id="2-SSH开启密钥登录"><a href="#2-SSH开启密钥登录" class="headerlink" title="2.SSH开启密钥登录"></a>2.SSH开启密钥登录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh user@host <span class="string">'mkdir -p .ssh &amp;&amp; cat &gt;&gt; .ssh/authorized_keys'</span> &lt; ~/.ssh/id_rsa.pub</div></pre></td></tr></table></figure>
 <h3 id="3-SSH端口转发"><a href="#3-SSH端口转发" class="headerlink" title="3.SSH端口转发"></a>3.SSH端口转发</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">nohup  /usr/bin/ssh -N -L 0.0.0.0:8000:10.10.10.10:12000 sa.demo.com &amp;</div></pre></td></tr></table></figure>
