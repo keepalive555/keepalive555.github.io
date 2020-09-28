@@ -1,38 +1,462 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %} {{ page.title }} | {{ config.title }} {% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"keepalive555.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="吐槽作为一名学渣，每次回头去翻看一下大学课程的基础知识，总会有不同的感受。笔者也总想着把自己工作中领悟的做归纳。关于查找算法，思想大概可以归类为三类（大神请绕路）：  顺序查找 二分查找（插入查找、斐波拉切查找…） 哈希查找  顺序查找是我们常用的遍历。在对性能要求比较高的业务场景下，我们便需要考虑其他更好的实现方式了（例如：为了避免全表扫描，数据库通过B+ Tree索引提高查找效率）。哈希查找，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SkipList研究">
+<meta property="og:url" content="https://keepalive555.github.io/2017/12/29/SkipList/index.html">
+<meta property="og:site_name" content="枫叶居">
+<meta property="og:description" content="吐槽作为一名学渣，每次回头去翻看一下大学课程的基础知识，总会有不同的感受。笔者也总想着把自己工作中领悟的做归纳。关于查找算法，思想大概可以归类为三类（大神请绕路）：  顺序查找 二分查找（插入查找、斐波拉切查找…） 哈希查找  顺序查找是我们常用的遍历。在对性能要求比较高的业务场景下，我们便需要考虑其他更好的实现方式了（例如：为了避免全表扫描，数据库通过B+ Tree索引提高查找效率）。哈希查找，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-12-28T16:37:10.000Z">
+<meta property="article:modified_time" content="2020-09-23T16:51:16.117Z">
+<meta property="article:author" content="Lan Wei, Wang">
+<meta property="article:tag" content="跳表">
+<meta property="article:tag" content="时间复杂度O(nlogn)">
+<meta property="article:tag" content="哈希表">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://keepalive555.github.io/2017/12/29/SkipList/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>SkipList研究 | 枫叶居</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">枫叶居</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">桃李春风一杯酒，江湖夜雨十年灯</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
 
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://keepalive555.github.io/2017/12/29/SkipList/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Lan Wei, Wang">
+      <meta itemprop="description" content="技术博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="枫叶居">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SkipList研究
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2017-12-29 00:37:10" itemprop="dateCreated datePublished" datetime="2017-12-29T00:37:10+08:00">2017-12-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-24 00:51:16" itemprop="dateModified" datetime="2020-09-24T00:51:16+08:00">2020-09-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2><span id="吐槽">吐槽</span></h2><p>作为一名学渣，每次回头去翻看一下大学课程的基础知识，总会有不同的感受。笔者也总想着把自己工作中领悟的做归纳。关于查找算法，思想大概可以归类为三类（大神请绕路）：</p>
+<ul>
+<li>顺序查找</li>
+<li>二分查找（插入查找、斐波拉切查找…）</li>
+<li>哈希查找</li>
+</ul>
+<p>顺序查找是我们常用的遍历。在对性能要求比较高的业务场景下，我们便需要考虑其他更好的实现方式了（例如：为了避免全表扫描，数据库通过<code>B+ Tree</code>索引提高查找效率）。哈希查找，时间复杂度为<code>O(1)</code>，是一种常见且应用广泛的查找算法。本文将在剩余篇幅对二分查找法进行吐槽。</p>
+<h2><span id="思考">思考</span></h2><p>咦？今天我们讨论的不是<code>SkipList</code>吗，为什么会谈到二分查找法，接下来笔者将阐述一下原因。在实际工程应用中，算法与数据结构是相辅相成的，相互依存，相互影响的， 没有<code>数据结构</code>支撑的算法只能是空中阁楼。接下来，我们思考尝试为二分查找（或类似思想）寻找一个适合的**<em>数据结构**</em>。</p>
+<p>通常会从<code>CRUD</code>（即增、删、改、查）四个角度，结合具体应用场景去衡量一个数据结构的适用性。我们知道数据的存储方式分为两种：①顺序存储②链式存储。<strong>顺序存储</strong>中，有序列表的元素在内存中紧紧相连，可以**<em>随机访问**</em>（直接用下标访问，时间复杂度<code>O(1)</code>），能用二分查找法快速定位节点。但是顺序存储对<code>增、删</code>操作的处理比较费力（当删除列表中一个元素时，列表应当将该元素后面的元素前移，填补空的节点，同样增加元素时亦是如此）。</p>
+<p>顺序存储不适用于<code>增 、删</code>操作频繁的应用场景，那么我们考虑一下*<strong>链式存储**<em>。</em></strong>链表*<strong>能很好的处理<code>增、删</code>频繁的场景。但是链表一般**<em>顺序访问</em></strong>（即读取第一个元素后才可以读取第二个元素，以此类推），显然传统的链表数据结构无法应用二分的思想进行快速查找。</p>
+<p>聪明的人们结合<code>二叉树</code>，发明了**<em>二叉查找树**</em>———既可以二分查找，又能够快速<code>添加、删除</code>元素的数据结构。这正是我们期望的能够应用二分查找的完美数据结构吗？很遗憾，并不是。二叉查找树在最坏情况下可能变成一个链表。于是，在二分查找树的基础上，就出现了<code>AVL</code>平衡树。<code>AVL</code>树在<code>增、删</code>节点时，为了保持树的平衡，会进行左旋，右旋操作，增加了<code>增、删</code>操作的复杂度。于是乎根据人们在发明了<code>B-Tree</code>，<code>B+ Tree</code>，<code>红黑树</code>等。但是<code>AVL</code>树实现起来比较复杂，平衡操作较难理解。</p>
+<p>所以便有了<code>SkipList</code>。</p>
+<h2><span id="实现">实现</span></h2><p>百度搜索网上一些<code>SkipList</code>的实现，代码多多少少存在一些瑕疵。笔者根据自己对<code>SkipList</code>的理解，结合网上的一些实现，整理出了一份<code>C</code>语言版本的<code>SkipList</code>实现。读者可以参阅笔者的<code>GitHub</code>，源文件：<a target="_blank" rel="noopener" href="https://github.com/keepalive555/study/blob/master/skiplist/skiplist.c">https://github.com/keepalive555/study/blob/master/skiplist/skiplist.c</a>。</p>
+<p>其中<code>SkipList</code>新建<code>Node</code>节点，随机获取节点<code>level</code>值的<code>random_level</code>函数（源码如下所示），是笔者摘抄自<code>Redis</code>源码。*<strong>该函数是保证<code>SkipList</code>的<code>CRUD</code>操作时间复杂度为**<em>O(logN)</em></strong>的核心所在***。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX_LEVEL 32</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> P 0.25</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">random_level</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> level = <span class="number">1</span>;  </span><br><span class="line">    <span class="keyword">while</span> ((random() &amp; <span class="number">0xFFFF</span>) &lt; (P * <span class="number">0xFFFF</span>))  </span><br><span class="line">        level += <span class="number">1</span>;  </span><br><span class="line">    <span class="keyword">return</span> (level &lt; MAX_LEVEL) ? level : MAX_LEVEL;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.jpeg" alt="Lan Wei, Wang 微信支付">
+        <p>微信支付</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%B7%B3%E8%A1%A8/" rel="tag"># 跳表</a>
+              <a href="/tags/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6O-nlogn/" rel="tag"># 时间复杂度O(nlogn)</a>
+              <a href="/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/" rel="tag"># 哈希表</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/12/23/raft%E5%8D%8F%E8%AE%AE/" rel="prev" title="Raft协议">
+      <i class="fa fa-chevron-left"></i> Raft协议
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/08/Python-list%E5%AE%9E%E7%8E%B0/" rel="next" title="Python list实现">
+      Python list实现 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">吐槽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">思考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">实现</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Lan Wei, Wang"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Lan Wei, Wang</p>
+  <div class="site-description" itemprop="description">技术博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lan Wei, Wang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
