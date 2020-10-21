@@ -199,7 +199,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-21 23:39:30" itemprop="dateModified" datetime="2020-10-21T23:39:30+08:00">2020-10-21</time>
+                <time title="修改时间：2020-10-21 23:45:01" itemprop="dateModified" datetime="2020-10-21T23:45:01+08:00">2020-10-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -226,7 +226,7 @@
 <p>QA同学在线上测试重构后的<strong>golang模块</strong>时发现，会偶现后端响应<strong>超时</strong>的现象。在之前的压测中，接口监控<strong>响应</strong>稳定在10ms左右，所以猜测存在<strong>长尾请求</strong>。</p>
 <h1><span id="目前问题">目前问题</span></h1><h2><span id="监控指标">监控指标</span></h2><p>目前业务监控系统，反应接口耗时的系统指标为——<strong>平响</strong>，即平均响应时间=<strong>单位时间内所有请求耗时总和/请求数</strong>。</p>
 <p>平均数并不能够反应数据的波动情况，例如：请求a耗时10ms（记为cost(a)=10ms），请求b耗时300ms（记为cost(b)=300ms），请求a与请求b的平均响应时间= cost(a, b) = (cost(a) + cost(b)) / 2 =<strong>155ms</strong> 。平均耗时155ms（&lt;=200ms）是达标的，但是请求b耗时300ms明显是未达标的。</p>
-<p>APP后端研发工程师，都了解对端接口请求耗时<strong>200ms</strong>是一个临界阈值——请求耗时200ms以下，用户对网络延迟几乎无感，体验较好，请求耗时200ms以上，网络延迟感明显，用户体验较差。因此请求耗时是否**&lt;=200ms<strong>经常作为接口性能优化的判断条件之一。在业务中，经常会遇到</strong>命中缓存<strong>与</strong>未命中缓存<strong>时耗时差距较大的场景，</strong>所以平响无法全面的衡量系统的性能**。</p>
+<p>APP后端研发工程师，都了解对端接口请求耗时<strong>200ms</strong>是一个临界阈值——请求耗时200ms以下，用户对网络延迟几乎无感，体验较好，请求耗时200ms以上，网络延迟感明显，用户体验较差。因此请求耗时是否&lt;=200ms经常作为接口性能优化的判断条件之一。在业务中，经常会遇到<strong>命中缓存</strong>与<strong>未命中缓存</strong>时耗时差距较大的场景，<strong>所以平响无法全面的衡量系统的性能</strong>。</p>
 <h2><span id="长尾请求">长尾请求</span></h2><p>业界关于延迟有一个常用的<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/12808934/what-is-p99-latency">P99标准</a>，即99％的请求应该比指定的延迟更小，仅允许1％的请求大于指定的延迟，这1%的请求即为”长尾请求”。打个形象的比喻，班级内99%同学的成绩都非常优秀，但总会有几位同学拖班级平均成绩后腿儿，拉低班级的“平均分，这几位同学就是“长尾请求”。</p>
 <p>长尾请求的产生原因是多种多样的且复杂的，包括实现方式、系统因素、硬件因素等等，在分布式中常见原因如下：</p>
 <ul>
