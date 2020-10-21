@@ -199,7 +199,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-21 23:47:48" itemprop="dateModified" datetime="2020-10-21T23:47:48+08:00">2020-10-21</time>
+                <time title="修改时间：2020-10-22 00:07:00" itemprop="dateModified" datetime="2020-10-22T00:07:00+08:00">2020-10-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -222,7 +222,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1><span id="写在前面">写在前面</span></h1><p>本文章为笔者原创，转载需要表明出处！</p>
+          <h1><span id="写在前面">写在前面</span></h1><p>本文章为笔者原创，转载需要表明出处，联系作者：<a href="mailto:&#x6c;&#x75;&#x63;&#107;&#121;&#100;&#x72;&#101;&#x61;&#109;&#x63;&#x61;&#116;&#99;&#x68;&#101;&#x72;&#x40;&#49;&#x36;&#51;&#46;&#99;&#111;&#109;">&#x6c;&#x75;&#x63;&#107;&#121;&#100;&#x72;&#101;&#x61;&#109;&#x63;&#x61;&#116;&#99;&#x68;&#101;&#x72;&#x40;&#49;&#x36;&#51;&#46;&#99;&#111;&#109;</a> | <a href="mailto:&#116;&#104;&#101;&#x2e;&#x6d;&#97;&#116;&#114;&#x69;&#120;&#x2e;&#x76;&#118;&#x76;&#64;&#103;&#109;&#97;&#x69;&#108;&#46;&#x63;&#111;&#x6d;">&#116;&#104;&#101;&#x2e;&#x6d;&#97;&#116;&#114;&#x69;&#120;&#x2e;&#x76;&#118;&#x76;&#64;&#103;&#109;&#97;&#x69;&#108;&#46;&#x63;&#111;&#x6d;</a></p>
 <p>QA同学在线上测试重构后的<strong>golang模块</strong>时发现，会偶现后端响应<strong>超时</strong>的现象。在之前的压测中，接口监控<strong>响应</strong>稳定在10ms左右，所以猜测存在<strong>长尾请求</strong>。</p>
 <h1><span id="目前问题">目前问题</span></h1><h2><span id="监控指标">监控指标</span></h2><p>目前业务监控系统，反应接口耗时的系统指标为——<strong>平响</strong>，即平均响应时间=<strong>单位时间内所有请求耗时总和/请求数</strong>。</p>
 <p>平均数并不能够反应数据的波动情况，例如：请求a耗时10ms（记为cost(a)=10ms），请求b耗时300ms（记为cost(b)=300ms），请求a与请求b的平均响应时间= cost(a, b) = (cost(a) + cost(b)) / 2 =<strong>155ms</strong> 。平均耗时155ms（&lt;=200ms）是达标的，但是请求b耗时300ms明显是未达标的。</p>
@@ -239,7 +239,7 @@
 </ul>
 <p>有关长尾请求更多介绍于技术优化思路，参考Google Jeff Dean大神的论文：<a target="_blank" rel="noopener" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.732.6087&amp;rep=rep1&amp;type=pdf%E3%80%82">http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.732.6087&amp;rep=rep1&amp;type=pdf。</a></p>
 <p>长尾请求在某种意义上来讲是无法消除的，但是我们可以通过技术手段将长尾请求控制在一定的比例之内，<strong>因此长尾请求也是很多性能优化工作的关注重点</strong>。由于长尾请求的存在，<strong>平响</strong>指标无法很好的反应绝大多数请求的耗时情况，因此有了<strong>分位时</strong>的概念，通俗的理解就是xx%的耗时在多少之内。</p>
-<h2><span id="分位时">分位时</span></h2><p>分位数，是统计学的一个术语，概念如下：</p>
+<h2><span id="分位时">分位时</span></h2><h3><span id="概念介绍">概念介绍</span></h3><p>分位数，是统计学的一个术语，概念如下：</p>
 <blockquote>
 <p>百分位数又称百分位分数（percentile），是一种相对地位量数，它是次数分布（Frequency Distribution，频数分布）中的一个点。把一个次数分布排序后，分为 100 个单位，百分位数就是次数分布中相对于某个特定百分点的原始分数，它表明在次数分布中特定个案百分比低于该分数。</p>
 </blockquote>
@@ -261,15 +261,16 @@
 <li>求数组[0, n)的P%的下标，m = n*P% - 1 = i + j，i代表整数部分，j代表小数部分；</li>
 <li>求下标为m的元素值 f(m) = f(i) + (f(j) - f(i)) * j；</li>
 </ol>
-<p>参考上述，可得分位时，是将所有请求耗时由小至大升序排列，求得分位数。计算分位时的可参考笔者写的<a target="_blank" rel="noopener" href="https://github.com/keepalive555/victorinox/blob/main/src/percentile.py">Python脚本</a>。</p>
+<p>参考上述，可得分位时，是将所有请求耗时由小至大升序排列，求得分位数。</p>
+<h3><span id="计算工具">计算工具</span></h3><p>计算分位时的工具，可参考笔者写的简易<a target="_blank" rel="noopener" href="https://github.com/keepalive555/victorinox/blob/main/src/percentile.py">Python脚本</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://raw.githubusercontent.com/keepalive555/victorinox/main/src/percentile.py</span><br></pre></td></tr></table></figure>
 
-<p>这样求一批请求的耗时的99分位时，Linux示例命令如下:</p>
+<p>求一批请求耗时的99分位时，Linux示例命令如下:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat service.log|grep -o -P <span class="string">&quot;cost\[\d+(\.|\])?&quot;</span>|grep -o -P <span class="string">&quot;\d+&quot;</span>|./percentile.py</span><br></pre></td></tr></table></figure>
 
-<p>在笔者的案例中，抓取生产环境日志约<strong>10w</strong>条，求得重构后<code>golang</code>接口，99.9分位时约为200ms，平响为10ms，差距是要比想想中的要大的多。所以关注系统性能指标不只需要关注<strong>平响</strong>，也需要关注<strong>分位时</strong>。</p>
-<h2><span id="优化思路">优化思路</span></h2><p>长尾请求的产生原因是多种多样的，分布式系统中<strong>最常见的</strong>场景是受下游服务拖累，例如：MySQL慢查询、分布式缓存过期、过载等等，所以合理设置下游服务超时时间是非常有必要的。</p>
-<p>同时目前许多流行的RPC框架，提供了解决长尾请求的方案——<code>Backup Request</code>，例如百度内部的BRPC框架。客户端首先向一台下游服务Server发送RPC请求，若在<code>backup_request_ms</code>（通常小于超时时间）内未取到数据，则在向下游服务另外一台Server发送RPC请求，哪台Server先响应则取哪条。设置合理的<code>backup_request_ms</code>，大部分情况下只会发一个请求，对下游服务的压力可以不计。</p>
+<p>在笔者的案例中，取生产环境日志约<strong>10w</strong>条，求得重构后<code>golang</code>接口，99.9分位时为200ms，平响为10ms，差距是要比想想中的要大的多，所以关注系统性能指标不只需要关注<strong>平响</strong>，也需要关注<strong>分位时</strong>。</p>
+<h2><span id="优化思路">优化思路</span></h2><p>长尾请求的产生原因是多种多样的，分布式系统中<strong>最常见的</strong>场景是受下游服务拖累，例如：MySQL慢查询、分布式缓存过期、下游服务过载等等，合理设置下游服务超时时间是非常有必要的。</p>
+<p>目前许多流行的RPC框架，提供了解决长尾请求的方案——<code>Backup Request</code>，例如百度内部的BRPC框架。客户端首先向一台下游服务Server发送RPC请求，若在<code>backup_request_ms</code>（通常小于超时时间）内未取到数据，则在向下游服务另外一台Server发送RPC请求，哪台Server先响应则取哪条。设置合理的<code>backup_request_ms</code>，大部分情况下只会发一个请求，对下游服务的压力可以不计。</p>
 <p>目前了解到，百度小程序C端团队，在做<code>BackupRequest</code>的改造，准备借鉴一下^_^。</p>
 <h1><span id="参考资料">参考资料</span></h1><p><a target="_blank" rel="noopener" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.732.6087&rep=rep1&type=pdf">The tail at scale</a></p>
 <p><a target="_blank" rel="noopener" href="https://juejin.im/post/6844903904371539975">经典分布式论文阅读：The Tail at Scale</a></p>
@@ -325,7 +326,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-24 00:45:50" itemprop="dateModified" datetime="2020-09-24T00:45:50+08:00">2020-09-24</time>
+                <time title="修改时间：2020-10-21 23:58:03" itemprop="dateModified" datetime="2020-10-21T23:58:03+08:00">2020-10-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -348,8 +349,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>[toc]</p>
-<h1><span id="写在前面">写在前面</span></h1><p>本文章为笔者原创，转载需要表明出处！！！</p>
+          <h1><span id="写在前面">写在前面</span></h1><p>本文章为笔者原创，转载需要表明出处，联系作者：<a href="mailto:&#108;&#x75;&#99;&#107;&#x79;&#x64;&#114;&#101;&#x61;&#109;&#99;&#x61;&#116;&#x63;&#104;&#101;&#x72;&#x40;&#x31;&#54;&#51;&#46;&#x63;&#x6f;&#x6d;">&#108;&#x75;&#99;&#107;&#x79;&#x64;&#114;&#101;&#x61;&#109;&#99;&#x61;&#116;&#x63;&#104;&#101;&#x72;&#x40;&#x31;&#54;&#51;&#46;&#x63;&#x6f;&#x6d;</a> | <a href="mailto:&#x74;&#x68;&#101;&#x2e;&#x6d;&#97;&#x74;&#114;&#105;&#x78;&#46;&#x76;&#118;&#x76;&#x40;&#103;&#x6d;&#97;&#105;&#108;&#x2e;&#x63;&#x6f;&#x6d;">&#x74;&#x68;&#101;&#x2e;&#x6d;&#97;&#x74;&#114;&#105;&#x78;&#46;&#x76;&#118;&#x76;&#x40;&#103;&#x6d;&#97;&#105;&#108;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 <p>笔者最近在做<strong>golang重构旧php模块</strong>的事情，PHP模块峰值请求约1.5w QPS，是典型的高并发场景，重构过程中，代码中一些容易被开发者**”选择性忽略”<strong>的问题会被指数级放大，比如内存泄露、full GC等等，所以</strong>上线/放量**前必须进行压力测试。</p>
 <p>为了更贴近生产环境，与QA同学合作，将重构后的golang模块部署到生产集群，选择一台20标准CPU核的实例，从服务列表中摘除，做压力测试。预期单实例的配置，可以扛住400QPS，在压力测试过程中发现，并发达到400QPS时，实例CPU使用率达到100%，成为性能瓶颈。</p>
 <p><strong>节约机器资源作为golang重构旧php的重要收益之一</strong>，为了达成此目标，笔者必须解决golang模块的cpu性能瓶颈，达到预期性能。</p>
@@ -422,7 +422,7 @@
 <li>使用性能更高的开源json序列化方案；</li>
 </ul>
 <p>如何进行性能调优，解决文章中的Case，笔者将会在新的文章中阐述思路，本文不做过多叙述。</p>
-<h1><span id="联系作者">联系作者</span></h1><p>有更好的”性能调优”方式，也欢迎一块儿交流一下（邮箱：<a href="mailto:&#108;&#117;&#99;&#107;&#121;&#100;&#x72;&#x65;&#97;&#x6d;&#x63;&#97;&#116;&#x63;&#x68;&#101;&#114;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;">&#108;&#117;&#99;&#107;&#121;&#100;&#x72;&#x65;&#97;&#x6d;&#x63;&#97;&#116;&#x63;&#x68;&#101;&#114;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;</a>，微信号：15210466756）；</p>
+<h1><span id="联系作者">联系作者</span></h1><p>有更好的”性能调优”方式，也欢迎一块儿交流一下（邮箱：<a href="mailto:&#x6c;&#x75;&#x63;&#x6b;&#121;&#100;&#x72;&#101;&#97;&#109;&#x63;&#97;&#116;&#99;&#104;&#101;&#114;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#x6d;">&#x6c;&#x75;&#x63;&#x6b;&#121;&#100;&#x72;&#101;&#97;&#109;&#x63;&#97;&#116;&#99;&#104;&#101;&#114;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#x6d;</a>，微信号：15210466756）；</p>
 <h1><span id="参考资料">参考资料</span></h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/51559344">Go Pprof</a></p>
 <p><a target="_blank" rel="noopener" href="http://www.graphviz.org/download/source/">graphviz</a></p>
 <p><a target="_blank" rel="noopener" href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html">cpu flame graph</a></p>

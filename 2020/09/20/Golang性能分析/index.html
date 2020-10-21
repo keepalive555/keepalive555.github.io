@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"keepalive555.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="[toc] 写在前面本文章为笔者原创，转载需要表明出处！！！ 笔者最近在做golang重构旧php模块的事情，PHP模块峰值请求约1.5w QPS，是典型的高并发场景，重构过程中，代码中一些容易被开发者**”选择性忽略”的问题会被指数级放大，比如内存泄露、full GC等等，所以上线&#x2F;放量**前必须进行压力测试。 为了更贴近生产环境，与QA同学合作，将重构后的golang模块部署到生产集群，选择一">
+  <meta name="description" content="写在前面本文章为笔者原创，转载需要表明出处，联系作者：&amp;#108;&amp;#x75;&amp;#99;&amp;#107;&amp;#x79;&amp;#x64;&amp;#114;&amp;#101;&amp;#x61;&amp;#109;&amp;#99;&amp;#x61;&amp;#116;&amp;#x63;&amp;#104;&amp;#101;&amp;#x72;&amp;#x40;&amp;#x31;&amp;#54;&amp;#51;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d; | &amp;#x74;&amp;#x68;&amp;#101;&amp;#x2e;&amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Golang性能分析">
 <meta property="og:url" content="https://keepalive555.github.io/2020/09/20/Golang%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="枫叶居">
-<meta property="og:description" content="[toc] 写在前面本文章为笔者原创，转载需要表明出处！！！ 笔者最近在做golang重构旧php模块的事情，PHP模块峰值请求约1.5w QPS，是典型的高并发场景，重构过程中，代码中一些容易被开发者**”选择性忽略”的问题会被指数级放大，比如内存泄露、full GC等等，所以上线&#x2F;放量**前必须进行压力测试。 为了更贴近生产环境，与QA同学合作，将重构后的golang模块部署到生产集群，选择一">
+<meta property="og:description" content="写在前面本文章为笔者原创，转载需要表明出处，联系作者：&amp;#108;&amp;#x75;&amp;#99;&amp;#107;&amp;#x79;&amp;#x64;&amp;#114;&amp;#101;&amp;#x61;&amp;#109;&amp;#99;&amp;#x61;&amp;#116;&amp;#x63;&amp;#104;&amp;#101;&amp;#x72;&amp;#x40;&amp;#x31;&amp;#54;&amp;#51;&amp;#46;&amp;#x63;&amp;#x6f;&amp;#x6d; | &amp;#x74;&amp;#x68;&amp;#101;&amp;#x2e;&amp;">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://keepalive555.github.io/2020/09/20/Golang%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90/torch.svg">
 <meta property="article:published_time" content="2020-09-20T08:47:49.000Z">
-<meta property="article:modified_time" content="2020-09-23T16:45:50.449Z">
+<meta property="article:modified_time" content="2020-10-21T15:58:03.518Z">
 <meta property="article:author" content="Lan Wei, Wang">
 <meta property="article:tag" content="Golang">
 <meta property="article:tag" content="性能优化">
@@ -206,7 +206,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-09-24 00:45:50" itemprop="dateModified" datetime="2020-09-24T00:45:50+08:00">2020-09-24</time>
+                <time title="修改时间：2020-10-21 23:58:03" itemprop="dateModified" datetime="2020-10-21T23:58:03+08:00">2020-10-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -229,8 +229,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>[toc]</p>
-<h1><span id="写在前面">写在前面</span></h1><p>本文章为笔者原创，转载需要表明出处！！！</p>
+        <h1><span id="写在前面">写在前面</span></h1><p>本文章为笔者原创，转载需要表明出处，联系作者：<a href="mailto:&#108;&#x75;&#99;&#107;&#x79;&#x64;&#114;&#101;&#x61;&#109;&#99;&#x61;&#116;&#x63;&#104;&#101;&#x72;&#x40;&#x31;&#54;&#51;&#46;&#x63;&#x6f;&#x6d;">&#108;&#x75;&#99;&#107;&#x79;&#x64;&#114;&#101;&#x61;&#109;&#99;&#x61;&#116;&#x63;&#104;&#101;&#x72;&#x40;&#x31;&#54;&#51;&#46;&#x63;&#x6f;&#x6d;</a> | <a href="mailto:&#x74;&#x68;&#101;&#x2e;&#x6d;&#97;&#x74;&#114;&#105;&#x78;&#46;&#x76;&#118;&#x76;&#x40;&#103;&#x6d;&#97;&#105;&#108;&#x2e;&#x63;&#x6f;&#x6d;">&#x74;&#x68;&#101;&#x2e;&#x6d;&#97;&#x74;&#114;&#105;&#x78;&#46;&#x76;&#118;&#x76;&#x40;&#103;&#x6d;&#97;&#105;&#108;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 <p>笔者最近在做<strong>golang重构旧php模块</strong>的事情，PHP模块峰值请求约1.5w QPS，是典型的高并发场景，重构过程中，代码中一些容易被开发者**”选择性忽略”<strong>的问题会被指数级放大，比如内存泄露、full GC等等，所以</strong>上线/放量**前必须进行压力测试。</p>
 <p>为了更贴近生产环境，与QA同学合作，将重构后的golang模块部署到生产集群，选择一台20标准CPU核的实例，从服务列表中摘除，做压力测试。预期单实例的配置，可以扛住400QPS，在压力测试过程中发现，并发达到400QPS时，实例CPU使用率达到100%，成为性能瓶颈。</p>
 <p><strong>节约机器资源作为golang重构旧php的重要收益之一</strong>，为了达成此目标，笔者必须解决golang模块的cpu性能瓶颈，达到预期性能。</p>
@@ -303,7 +302,7 @@
 <li>使用性能更高的开源json序列化方案；</li>
 </ul>
 <p>如何进行性能调优，解决文章中的Case，笔者将会在新的文章中阐述思路，本文不做过多叙述。</p>
-<h1><span id="联系作者">联系作者</span></h1><p>有更好的”性能调优”方式，也欢迎一块儿交流一下（邮箱：<a href="mailto:&#108;&#117;&#99;&#107;&#121;&#100;&#x72;&#x65;&#97;&#x6d;&#x63;&#97;&#116;&#x63;&#x68;&#101;&#114;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;">&#108;&#117;&#99;&#107;&#121;&#100;&#x72;&#x65;&#97;&#x6d;&#x63;&#97;&#116;&#x63;&#x68;&#101;&#114;&#64;&#x31;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;</a>，微信号：15210466756）；</p>
+<h1><span id="联系作者">联系作者</span></h1><p>有更好的”性能调优”方式，也欢迎一块儿交流一下（邮箱：<a href="mailto:&#x6c;&#x75;&#x63;&#x6b;&#121;&#100;&#x72;&#101;&#97;&#109;&#x63;&#97;&#116;&#99;&#104;&#101;&#114;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#x6d;">&#x6c;&#x75;&#x63;&#x6b;&#121;&#100;&#x72;&#101;&#97;&#109;&#x63;&#97;&#116;&#99;&#104;&#101;&#114;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#x6d;</a>，微信号：15210466756）；</p>
 <h1><span id="参考资料">参考资料</span></h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/51559344">Go Pprof</a></p>
 <p><a target="_blank" rel="noopener" href="http://www.graphviz.org/download/source/">graphviz</a></p>
 <p><a target="_blank" rel="noopener" href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html">cpu flame graph</a></p>
