@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"keepalive555.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="服务雪崩历险记（上）服务雪崩——作为微服务架构中的经典问题，之前只是在技术博客中看到过，没想到自己有一天也遇到了，由于首次处理此类问题，经验较为欠缺，走了一些弯路，在此记录排查思路与解决方案，服务雪崩的概念可以参考网上技术文章，在此不做过多赘述。 线上现象今天上午刚刚到公司，便收到【天气服务】CPU使用率超限报警，上午一般是百度APP流量低峰期，因此笔者感觉比较奇怪，于是便打开报警链接，发现北京机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务雪崩历险记（上）">
+<meta property="og:url" content="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/index.html">
+<meta property="og:site_name" content="枫叶居">
+<meta property="og:description" content="服务雪崩历险记（上）服务雪崩——作为微服务架构中的经典问题，之前只是在技术博客中看到过，没想到自己有一天也遇到了，由于首次处理此类问题，经验较为欠缺，走了一些弯路，在此记录排查思路与解决方案，服务雪崩的概念可以参考网上技术文章，在此不做过多赘述。 线上现象今天上午刚刚到公司，便收到【天气服务】CPU使用率超限报警，上午一般是百度APP流量低峰期，因此笔者感觉比较奇怪，于是便打开报警链接，发现北京机">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/cpu.png">
+<meta property="og:image" content="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/qps.png">
+<meta property="og:image" content="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/shili_cpu.png">
+<meta property="og:image" content="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/jiqi.png">
+<meta property="og:image" content="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/xuebeng.png">
+<meta property="og:image" content="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/fenweishi.png">
+<meta property="og:image" content="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/mapisss.png">
+<meta property="og:image" content="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/queuss.png">
+<meta property="article:published_time" content="2021-04-10T14:09:03.000Z">
+<meta property="article:modified_time" content="2021-04-10T14:10:20.785Z">
+<meta property="article:author" content="Lan Wei, Wang">
+<meta property="article:tag" content="微服务">
+<meta property="article:tag" content="服务雪崩">
+<meta property="article:tag" content="重试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/cpu.png">
+
+<link rel="canonical" href="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>服务雪崩历险记（上） | 枫叶居</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">枫叶居</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">桃李春风一杯酒，江湖夜雨十年灯</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/baidusitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://keepalive555.github.io/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Lan Wei, Wang">
+      <meta itemprop="description" content="技术博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="枫叶居">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          服务雪崩历险记（上）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-04-10 22:09:03 / 修改时间：22:10:20" itemprop="dateCreated datePublished" datetime="2021-04-10T22:09:03+08:00">2021-04-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">系统架构</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1><span id="服务雪崩历险记上">服务雪崩历险记（上）</span></h1><p>服务雪崩——作为微服务架构中的经典问题，之前只是在技术博客中看到过，没想到自己有一天也遇到了，由于首次处理此类问题，经验较为欠缺，走了一些弯路，在此记录<strong>排查思路</strong>与<strong>解决方案</strong>，<strong>服务雪崩</strong>的概念可以参考网上技术文章，在此不做过多赘述。</p>
+<h1><span id="线上现象">线上现象</span></h1><p>今天上午刚刚到公司，便收到<font color="#ff0000">【天气服务】CPU使用率超限报警</font>，上午一般是百度APP流量低峰期，因此笔者感觉比较奇怪，于是便打开报警链接，发现<strong>北京机房</strong>实例CPU使用率达到了惊人的<strong>245%**，远远超过了</strong>70%**的阈值（事后非常庆幸，笔者撰文时所有容器已开启资源硬限，雪崩发生时尚未开启CPU资源硬限，否则服务可用性可能会跌到个位数=_=），如图所示：</p>
+<p><img src="/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/cpu.png" alt="CPU使用率"></p>
+<p>笔者第一时间打开业务监控，查看接口监控指标。如下图，可以明显看到接口流量有若干个波峰，最高的波峰上涨了约80%（8000Q左右）。<font color="#ff0000">情理之中，意料之外的是——接口可用性、接口平响同样出现若干个波峰，依赖的所有下游服务可用性均下跌严重</font>。很明显【天气服务】出现了雪崩的迹象，但全线上涨的监控指标，掩盖了问题发生的根源，无从下手定位问题原因。<strong>雪崩的时候没有一片雪花是无辜的。</strong></p>
+<p><img src="/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/qps.png" alt="流量"></p>
+<h1><span id="问题定位">问题定位</span></h1><h2><span id="初步排查">初步排查</span></h2><p>因为无【服务雪崩】相关排查与处理经验，未能直击要害点。根据<strong>【止损优先】</strong>的原则，笔者凭直觉（经验），先列出可能的原因，尝试止损：</p>
+<ol>
+<li>Go模块未知Bug被触发（例如：Goroutine泄露、full GC），导致CPU使用率急剧飙升，流量急剧升高，下游服务可用性急剧变差；</li>
+<li>端发生大规模崩溃，频繁重启，流量上涨，导致CPU过载；</li>
+<li>下游服务不稳定，导致【天气接口】大量超时，触发上游服务重试，导致CPU使用率飙升；</li>
+</ol>
+<p>首先，选择三台问题实例（容器），查看<strong>实例CPU使用率</strong>监控指标，三台实例CPU使用率波峰出现时间点完全一致，且且内存使用率、已打开文件描述符等等监控均未见异常，基本排除实例内Go模块未知Bug引起CPU使用率飙升，进而引起连锁反应可能性。深入跟踪，查看三台实例所在物理机的CPU使用率（未开启资源硬限，混布服务存在资源侵占的可能性），CPU IDLE指标较高，计算资源充裕，排除服务混布，其它服务实例资源占用的可能性（**<em>注：CPU使用率升高与流量升高，是个鸡生蛋蛋生鸡的问题，CPU使用率升高，会导致部分请求处理不及时，引发上游服务重试，导致流量上涨、可用性下跌等等，所以不能武断**</em>）。综合实例CPU使用率与物理机CPU使用率，基本排除CPU性能瓶颈（延伸问题：若容器开启硬限制，如何排除）。</p>
+<p><img src="/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/shili_cpu.png" alt="实例CPU使用率图"></p>
+<p><img src="/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/jiqi.png" alt="物理机CPU使用率图"></p>
+<p>端发生大规模崩溃，【天气服务】接口流量会上涨，调用的其它接口都会比较明显的上涨。但观察其它接口正常，端崩溃率监控正常，可能性2排除。</p>
+<p>在可能性1与可能性2基本排除后，**<em>笔者几乎可以肯定是下游服务可用性出现波动，拖累天气服务超时，触发接入层重试**</em>，但监控中所有下游服务可用性（上游服务调用下游成功率）均大幅度下跌，无参考价值。分析线上RPC请求日志，失败原因均为”request canceled (client.timeout exceeded while awaiting header”，即<strong>读超时</strong>。一般情况下，因CPU使用率升高导致请求下游服务失败，在建立连接阶段就失败了，此处发生的错误为读超时，更加坚定笔者的判断。<font color="#ff0000">看上去真凶呼之欲出了，诡异的打脸马上来了，询问了所有下游业务方，业务方均反馈服务流量有上涨，但服务可用性、平响、CPU使用率均正常</font>。</p>
+<h2><span id="尝试止损">尝试止损</span></h2><p>虽然尚未完全定位原因，但基本可以确定流量上涨的原因为【天气服务】上游服务重试导致的，『请求重试』加重了系统的负载，移除上游服务的重试应当是有效的。【天气服务】架构图如下（基于安全考虑，已屏蔽细节，实际架构有出入，不影响理解）：</p>
+<p><img src="/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/xuebeng.png" alt="架构图"></p>
+<p>可以看到【流量网关】 =&gt; 【业务网关】=&gt; 【天气服务】=&gt; 【下游服务】存在3层重试，假如相邻的上下两层，请求超时，触发重试，到【下游服务】的流量最大会被放大至正常流量的8倍（2^3=8），很容易发生<strong>服务雪崩</strong>。流量网关，因接入了众多产品线，摘除『重试』风险较大，在【业务网关】与【天气服务】这两层，将『重试』逻辑移除。<strong>【天气服务】与【下游服务】流量逐渐下降，CPU使用率开始逐渐下降，止损操作已生效</strong>。</p>
+<h2><span id="问题定位">问题定位</span></h2><p>摘除【业务网关】与【天气服务】的请求『重试』之后，【天气服务】流量趋于正常。因为【流量网关】『重试』尚未摘除，【天气服务】流量波峰与CPU波峰依然存在，参考价值依然不大。下游服务较为明显，陆续恢复正常，除了——<strong>Push地址位置同步服务</strong>。<font color="#ff0000">显然该服务是此次雪崩的真凶，那么为什么业务方观察的现业务可用性、平响、CPU使用率均正常，如此诡异呢</font>。</p>
+<h3><span id="长尾请求">长尾请求</span></h3><p>笔者在将【天气服务】请求Push地址位置同步服务Timeout时间调小进行止损的同时，开始分析原因，因为RPC报错日志大多数是读超时，首先想到的便是存在长尾请求（有关长尾请求与分位时参考笔者上一篇博文：<a href="https://keepalive555.github.io/2020/09/24/%E9%95%BF%E5%B0%BE%E8%AF%B7%E6%B1%82/%EF%BC%89%EF%BC%8C%E7%BB%9F%E8%AE%A1RPC%E6%97%A5%E5%BF%9785%E5%88%86%E4%BD%8D%E6%97%B6%E5%A6%82%E4%B8%8B%EF%BC%88%E5%AE%9E%E9%99%85%E4%B8%8A%E8%AF%B7%E6%B1%82%E8%AF%A5%E6%9C%8D%E5%8A%A1%E7%9A%84RPC%E6%97%A5%E5%BF%9750%E5%88%86%E4%BD%8D%E6%97%B6%E4%B9%9F%E5%B0%86%E8%BF%91400ms%EF%BC%89%EF%BC%9A">https://keepalive555.github.io/2020/09/24/%E9%95%BF%E5%B0%BE%E8%AF%B7%E6%B1%82/），统计RPC日志85分位时如下（实际上请求该服务的RPC日志50分位时也将近400ms）：</a></p>
+<p><img src="/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/fenweishi.png" alt="85分位时"></p>
+<p>而业务方监控平响峰值在5ms以内（如图所示），即使RPC日志中前50%请求耗时为0ms，接口平响也有200ms，相差40倍。于是笔者与业务方RD开始梳理请求全链路，查找线索。</p>
+<p><img src="/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/mapisss.png" alt="!mapi平响"></p>
+<h3><span id="请求链路梳理">请求链路梳理</span></h3><p>与业务方RD沟通后得知，下游业务采用『Nginx+PHP』的部署方式，每台实例前端均部署一台Nginx用作反向代理， 若干PHP进程（线程）处理请求。请求链路：【天气服务】=&gt; 【实例Nginx】=&gt;【业务方PHP进程】。业务方RD在Nginx日志中发现了大量HTTP 499错误码的请求，HTTP 499表示客户端因请求超时关闭请求，与【天气服务】RPC日志表现一致，耗时500ms，问题基本定位——**<em>495ms的平响时间差是在【实例Nginx】转发至【业务方PHP进程】的过程中产生的**</em>。</p>
+<p>由于Nginx日志可供参考的信息有限，在OP同学的帮助下最终定位了原因——PHP的虚拟机Worker线程处理能力达到了上限，后续到达的请求排队等候处理，直至超时，**<em>类似于限流算法中的漏桶算法**</em>。<font color="#ff0000">这也是业务服务可用性、平响、CPU使用率均正常这种诡异现象的原因</font>。</p>
+<p><img src="/2021/04/10/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/queuss.png" alt="队列堆积"></p>
+<h3><span id="导火索">导火索</span></h3><p>原因已定位，那导致请求堆积的罪魁祸首是什么呢——Push消息推送，年底活跃用户较多，通过Push进入百度APP的用户变多，下游业务处理能力见顶。</p>
+<h1><span id="服务雪崩解决方案">服务雪崩解决方案</span></h1><p>由于【天气服务】是由PHP模块迁移而来，尚未接入手百的Service Mesh，所以止损方案有限。服务雪崩是微服务架构中常见的问题，解决方案也比较成熟，笔者在下一篇博文中讲述，常见方案参考：</p>
+<ul>
+<li>入口流量限流</li>
+<li>访问下游服务增加断路器</li>
+<li>异步请求弱依赖服务</li>
+<li>Locality-aware load balancing路由算法</li>
+<li>……</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechat.jpeg" alt="Lan Wei, Wang 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.jpeg" alt="Lan Wei, Wang 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag"># 微服务</a>
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E9%9B%AA%E5%B4%A9/" rel="tag"># 服务雪崩</a>
+              <a href="/tags/%E9%87%8D%E8%AF%95/" rel="tag"># 重试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/24/%E9%95%BF%E5%B0%BE%E8%AF%B7%E6%B1%82/" rel="prev" title="长尾请求与分位时">
+      <i class="fa fa-chevron-left"></i> 长尾请求与分位时
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text">服务雪崩历险记（上）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">2.</span> <span class="nav-text">线上现象</span></a></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">3.</span> <span class="nav-text">问题定位</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.1.</span> <span class="nav-text">初步排查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.2.</span> <span class="nav-text">尝试止损</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">3.3.</span> <span class="nav-text">问题定位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.1.</span> <span class="nav-text">长尾请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.2.</span> <span class="nav-text">请求链路梳理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link"><span class="nav-number">3.3.3.</span> <span class="nav-text">导火索</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">4.</span> <span class="nav-text">服务雪崩解决方案</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Lan Wei, Wang"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Lan Wei, Wang</p>
+  <div class="site-description" itemprop="description">技术博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="sidebar-button motion-element"><i class="fa fa-comment"></i>
+    Chat
+  </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/keepalive555" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;keepalive555" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:the.matrix.vvv@gmail.com" title="E-Mail → mailto:the.matrix.vvv@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2017 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lan Wei, Wang</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
